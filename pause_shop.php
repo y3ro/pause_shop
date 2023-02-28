@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Pause shop
-Description: Disable add to cart and checkout, and show a notice, under certain conditions.
+Description: Disable add-to-cart and checkout, and show a notice, for a limited amount of time.
 Author: Yerai Doval Mosquera
 */
 
@@ -30,4 +30,4 @@ function pause_store() {
     date_default_timezone_set($timezone);
 }
 
-add_action( 'wp', 'pause_store' );
+add_action('wp', 'pause_store');
