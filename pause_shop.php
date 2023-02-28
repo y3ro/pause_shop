@@ -3,6 +3,7 @@
 Plugin Name: Pause shop
 Description: Disable add-to-cart and checkout, and show a notice, for a limited amount of time.
 Author: Yerai Doval Mosquera
+Version: 0.0.2
 */
 
 function add_to_cart_disabled_msg() {
@@ -13,7 +14,7 @@ function filter_order_button_html() {
     return '<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); color: white; font-weight: bold; border-radius: 16px; text-align: center; padding: 4px 16px; margin-bottom: 16px;">La función de compra se ha deshabilitado mientras realizamos tareas de mantenimiento en el sitio. Volvemos en media hora.</div>';
 }
 
-function pause_store() {
+function pause_shop() {
     $timezone = date_default_timezone_get();
     date_default_timezone_set('Europe/Madrid');
 
@@ -30,4 +31,4 @@ function pause_store() {
     date_default_timezone_set($timezone);
 }
 
-add_action('wp', 'pause_store');
+add_action('wp', 'pause_shop');
