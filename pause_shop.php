@@ -63,15 +63,27 @@ function pause_shop_settings_page() {
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row">Timezone</th>
-                    <td><input type="text" name="timezone" value="<?php echo esc_attr(get_option('timezone')); ?>" /></td>
+                    <td>
+                        <input type="text" name="timezone" 
+                        value="<?php echo esc_attr(get_option('timezone')); ?>"
+                        placeholder="Europe/London" />
+                    </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row">Begin time</th>
-                    <td><input type="text" name="begin_time" value="<?php echo esc_attr(get_option('begin_time')); ?>" /></td>
+                    <td>
+                        <input type="text" name="begin_time" 
+                        value="<?php echo esc_attr(get_option('begin_time')); ?>"
+                        placeholder="E.g. 08:00:00" />
+                    </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row">End time</th>
-                    <td><input type="text" name="end_time" value="<?php echo esc_attr(get_option('end_time')); ?>" /></td>
+                    <td>
+                        <input type="text" name="end_time" 
+                        value="<?php echo esc_attr(get_option('end_time')); ?>"
+                        placeholder="E.g. 08:30:00" />
+                    </td>
                 </tr>
             </table>
             <?php submit_button(); ?>
