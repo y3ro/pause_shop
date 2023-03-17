@@ -46,8 +46,7 @@ function pause_shop_menu() {
         'manage_options',
         'pause-shop-settings-group',
         'pause_shop_settings_page',
-        'dashicons-admin-generic',
-        20
+        'dashicons-controls-pause',
     );
 }
 add_action('admin_menu', 'pause_shop_menu');
