@@ -22,6 +22,10 @@ function pause_shop() {
     $end_time = get_option('end_time'); // '08:30:00'
     $time = date('H:i:s');
 
+    if (!$begin_time || !$end_time) {
+        return;
+    }
+
     if ($time <= $end_time && $time >= $begin_time) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
