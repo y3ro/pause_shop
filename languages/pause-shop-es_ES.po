@@ -1,0 +1,28 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Pause shop\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+
+msgid "The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly."
+msgstr "La función de compra se ha deshabilitado mientras realizamos tareas de mantenimiento en el sitio. Volvemos en breve."
+
+msgid "Pause shop Settings"
+msgstr "Configuración de Pause shop"
+
+msgid "Timezone"
+msgstr "Zona horaria"
+
+msgid "E.g. Europe/London"
+msgstr "P.ej. Europe/London"
+
+msgid "Begin time"
+msgstr "Hora de comienzo"
+
+msgid "E.g. 08:00:00"
+msgstr "P.ej. 08:00:00"
+
+msgid "End time"
+msgstr "Hora de finalización"
+
+msgid "E.g. 08:30:00"
+msgstr "P.ej. 08:30:00"

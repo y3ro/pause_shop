@@ -3,15 +3,34 @@
 Plugin Name: Pause shop
 Description: Disable add-to-cart and checkout, and show a notice, for a limited amount of time.
 Author: Yerai Doval Mosquera
-Version: 0.1.0
+Domain Path: /languages
+Text Domain: pause-shop
+Version: 0.2.0
 */
 
+load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
 function add_to_cart_disabled_msg() {
-	echo '<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); color: white; font-weight: bold; border-radius: 16px; text-align: center; padding: 4px 16px; margin: 8px 0;">La función de compra se ha deshabilitado mientras realizamos tareas de mantenimiento en el sitio. Volvemos en media hora.</div>';
+    $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
+                   'pause-shop' );
+
+    ?>
+	<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); 
+     color: white; font-weight: bold; border-radius: 16px; 
+     text-align: center; padding: 4px 16px; margin: 8px 0;">
+        <?php echo $loc_msg; ?>
+    </div>
+    <?php   
 }
 
 function filter_order_button_html() {
-    return '<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); color: white; font-weight: bold; border-radius: 16px; text-align: center; padding: 4px 16px; margin-bottom: 16px;">La función de compra se ha deshabilitado mientras realizamos tareas de mantenimiento en el sitio. Volvemos en media hora.</div>';
+    $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
+                   'pause-shop' );
+    $html = sprintf('<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); 
+                  color: white; font-weight: bold; border-radius: 16px; text-align: center; 
+                  padding: 4px 16px; margin-bottom: 16px;">%s</div>', $loc_msg);
+
+    return $html;
 }
 
 function pause_shop() {
@@ -56,33 +75,33 @@ add_action('admin_menu', 'pause_shop_menu');
 function pause_shop_settings_page() {
     ?>
     <div class="wrap">
-        <h2>Pause shop Settings</h2>
+        <h2><?php echo __('Pause shop Settings', 'pause-shop'); ?></h2>
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>
             <table class="form-table">
                 <tr valign="top">
-                    <th scope="row">Timezone</th>
+                    <th scope="row"><?php echo __('Timezone', 'pause-shop'); ?></th>
                     <td>
                         <input type="text" name="timezone" 
                         value="<?php echo esc_attr(get_option('timezone')); ?>"
-                        placeholder="Europe/London" />
+                        placeholder="<?php echo __('E.g. Europe/London', 'pause-shop'); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row">Begin time</th>
+                    <th scope="row"><?php echo __('Begin time', 'pause-shop'); ?></th>
                     <td>
                         <input type="text" name="begin_time" 
                         value="<?php echo esc_attr(get_option('begin_time')); ?>"
-                        placeholder="E.g. 08:00:00" />
+                        placeholder="<?php echo __('E.g. 08:00:00', 'pause-shop'); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row">End time</th>
+                    <th scope="row"><?php echo __('End time', 'pause-shop'); ?></th>
                     <td>
                         <input type="text" name="end_time" 
                         value="<?php echo esc_attr(get_option('end_time')); ?>"
-                        placeholder="E.g. 08:30:00" />
+                        placeholder="<?php echo __('E.g. 08:30:00', 'pause-shop'); ?>" />
                     </td>
                 </tr>
             </table>
