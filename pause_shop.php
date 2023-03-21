@@ -2,10 +2,10 @@
 /*
 Plugin Name: Pause shop
 Description: Disable add-to-cart and checkout, and show a notice, for a limited amount of time.
-Author: Yerai Doval Mosquera
+Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.2.0
+Version: 0.3.0
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -35,17 +35,19 @@ function filter_order_button_html() {
 
 function pause_shop() {
     $timezone = date_default_timezone_get();
-    date_default_timezone_set(get_option('timezone')); // 'Europe/Madrid'
+    date_default_timezone_set(get_option('timezone'));
 
-    $begin_time = get_option('begin_time'); // '08:00:00'
-    $end_time = get_option('end_time'); // '08:30:00'
+    $pause = get_option('pause') ?: false;
+
+    $begin_time = get_option('begin_time');
+    $end_time = get_option('end_time');
     $time = date('H:i:s');
 
-    if (!$begin_time || !$end_time) {
+    if (!$pause && (!$begin_time || !$end_time)) {
         return;
     }
 
-    if ($time <= $end_time && $time >= $begin_time) {
+    if ($pause || $time <= $end_time && $time >= $begin_time) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
 		add_filter('woocommerce_order_button_html', 'filter_order_button_html', 10, 2);
@@ -117,5 +119,38 @@ function pause_shop_register_settings() {
     register_setting('pause-shop-settings-group', 'timezone');
     register_setting('pause-shop-settings-group', 'begin_time');
     register_setting('pause-shop-settings-group', 'end_time');
+    register_setting('pause-shop-settings-group', 'pause');
 }
 add_action('admin_init', 'pause_shop_register_settings');
+
+/* REST endpoints */
+
+function activate_pause() {
+    update_option( 'pause', true );
+    return array( 'success' => true );
+}
+
+function deactivate_pause() {
+    update_option( 'pause', false );
+    return array( 'success' => true );
+}
+
+function pause_shop_register_rest_routes() {
+    register_rest_route( 'pause_shop/v0', '/pause_shop', array(
+        'methods' => 'POST',
+        'callback' => 'activate_pause',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/unpause_shop', array(
+        'methods' => 'POST',
+        'callback' => 'deactivate_pause',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+}
+
+add_action( 'rest_api_init', 'pause_shop_register_rest_routes' );
