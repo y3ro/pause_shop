@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, and show a notice, for a limited 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.3.1
+Version: 0.3.2
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -85,9 +85,15 @@ function pause_shop_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php echo __('Timezone', 'pause-shop'); ?></th>
                     <td>
-                        <input type="text" name="timezone" 
-                        value="<?php echo esc_attr(get_option('timezone')); ?>"
-                        placeholder="<?php echo __('E.g. Europe/London', 'pause-shop'); ?>" />
+                        <select name="timezone">
+                        <?php
+                                $timezones = DateTimeZone::listIdentifiers();
+                                foreach($timezones as $timezone) {
+                                    $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
+                                    echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
+                                }
+                        ?>
+                        </select>
                     </td>
                 </tr>
                 <tr valign="top">
