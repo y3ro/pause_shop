@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, and show a notice, for a limited 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.3.0
+Version: 0.3.1
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -93,17 +93,15 @@ function pause_shop_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php echo __('Begin time', 'pause-shop'); ?></th>
                     <td>
-                        <input type="text" name="begin_time" 
-                        value="<?php echo esc_attr(get_option('begin_time')); ?>"
-                        placeholder="<?php echo __('E.g. 08:00:00', 'pause-shop'); ?>" />
+                        <input type="time" name="begin_time" 
+                        value="<?php echo esc_attr(get_option('begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo __('End time', 'pause-shop'); ?></th>
                     <td>
-                        <input type="text" name="end_time" 
-                        value="<?php echo esc_attr(get_option('end_time')); ?>"
-                        placeholder="<?php echo __('E.g. 08:30:00', 'pause-shop'); ?>" />
+                        <input type="time" name="end_time" 
+                        value="<?php echo esc_attr(get_option('end_time')); ?>" />
                     </td>
                 </tr>
             </table>
