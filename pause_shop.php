@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, and show a notice, for a limited 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.3.2
+Version: 0.4.0
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -74,6 +74,27 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
+// TODO: add ko-fi link and message
+// TODO: help in same flex-wrapped row as the settings
+// TODO: block place_order endpoint
+// TODO: add REST endpoints for every possible action
+
+function echo_help_text() {
+    $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
+    $unpause_endpoint = get_rest_url(null, 'pause_shop/v0/unpause_shop');
+    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time.', 'pause-shop');
+    $unpause_help = __('This will enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop');
+    $pause_curl = "curl -X POST $pause_endpoint";
+    $unpause_curl = "curl -X POST $unpause_endpoint";
+    ?>
+    <h3><?php echo __('Available REST endpoints', 'pause-shop'); ?></h3>
+    <pre><?php echo $pause_curl; ?></pre>
+    <p><?php echo $pause_help; ?></p>
+    <pre><?php echo $unpause_curl; ?></pre>
+    <p><?php echo $unpause_help; ?></p>
+    <?php    
+}
+
 function pause_shop_settings_page() {
     ?>
     <div class="wrap">
@@ -113,6 +134,9 @@ function pause_shop_settings_page() {
             </table>
             <?php submit_button(); ?>
         </form>
+    </div>
+    <div>
+        <?php echo_help_text(); ?>
     </div>
     <?php
 }
