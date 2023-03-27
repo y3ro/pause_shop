@@ -84,11 +84,13 @@ add_action('admin_menu', 'pause_shop_menu');
 // TODO: help in same flex-wrapped row as the settings
 // TODO: add REST endpoints for every possible action
 // TODO: no need for english localization files
+// TODO: add a link to repo
+// TODO: option to hide donations
 
 function echo_help_text() {
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
     $unpause_endpoint = get_rest_url(null, 'pause_shop/v0/unpause_shop');
-    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time.', 'pause-shop');
+    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time.', 'pause-shop'); // TODO: more precisely, until disabled
     $unpause_help = __('This will enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop');
     $pause_curl = "curl -X POST $pause_endpoint";
     $unpause_curl = "curl -X POST $unpause_endpoint";
@@ -108,10 +110,10 @@ function echo_contact_text() {
     ?>
     <h3><?php echo __('Donations', 'pause-shop'); ?></h3>
     <p><?php echo $ko_fi_msg; ?></p>
-    <a href="<?php echo $ko_fi_link; ?>" target="_blank">
+    <a href="<?php echo $ko_fi_link; ?>" target="_blank"> <!-- TODO: use esc_url -->
         <img height="36" style="border:0px;height:36px;" 
         src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-        alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" />
+        alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" /> <!-- TODO: use esc_attr -->
     </a>
     <?php
 }
@@ -156,11 +158,22 @@ function pause_shop_settings_page() {
             <?php submit_button(); ?>
         </form>
     </div>
-    <div>
-        <?php echo_help_text(); ?>
-    </div>
-    <div>
-        <?php echo_contact_text(); ?>
+    <!-- TODO: styles to CSS -->
+    <div style="
+        display: flex;
+        flex-wrap: wrap;">
+        <div style="
+            max-width: 30rem;
+            overflow-wrap: anywhere;
+            margin-right: 2rem;
+            ">
+            <?php echo_help_text(); ?>
+        </div>
+        <div style="
+            max-width: 19rem;
+            margin-left: 2rem;">
+            <?php echo_contact_text(); ?>
+        </div>
     </div>
     <?php
 }
