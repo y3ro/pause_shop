@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, and show a notice, for a limited 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.4.0
+Version: 0.4.1
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -33,6 +33,12 @@ function filter_order_button_html() {
     return $html;
 }
 
+function block_order() {
+    $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
+                   'pause-shop' );
+    wp_die($loc_msg);
+}
+
 function pause_shop() {
     $timezone = date_default_timezone_get();
     date_default_timezone_set(get_option('timezone'));
@@ -51,6 +57,7 @@ function pause_shop() {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
 		add_filter('woocommerce_order_button_html', 'filter_order_button_html', 10, 2);
+        add_action('woocommerce_before_checkout_process', 'block_order');
     }
 
     date_default_timezone_set($timezone);
@@ -76,8 +83,8 @@ add_action('admin_menu', 'pause_shop_menu');
 
 // TODO: add ko-fi link and message
 // TODO: help in same flex-wrapped row as the settings
-// TODO: block place_order endpoint
 // TODO: add REST endpoints for every possible action
+// TODO: localize help text
 
 function echo_help_text() {
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
