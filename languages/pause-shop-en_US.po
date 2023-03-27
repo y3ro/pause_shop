@@ -35,3 +35,12 @@ msgstr "This will enable the add-to-cart and checkout buttons, and hide the noti
 
 msgid "Available REST endpoints"
 msgstr "Available REST endpoints"
+
+msgid "If you like this plugin and want me to keep working on it, please consider buying me a coffee :)"
+msgstr "If you like this plugin and want me to keep working on it, please consider buying me a coffee :)"
+
+msgid "Buy Me a Coffee at ko-fi.com"
+msgstr "Buy Me a Coffee at ko-fi.com"
+
+msgid "Donations"
+msgstr "Donations"

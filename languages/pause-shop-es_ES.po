@@ -35,3 +35,12 @@ msgstr "Esto habilitará los botones de añadir al carrito y de pago, y ocultar�
 
 msgid "Available REST endpoints"
 msgstr "REST endpoints disponibles"
+
+msgid "If you like this plugin and want me to keep working on it, please consider buying me a coffee :)"
+msgstr "Si te gusta este plugin y quieres que siga trabajando en él, considera comprarme un café :)"
+
+msgid "Buy Me a Coffee at ko-fi.com"
+msgstr "Invítame a un café en ko-fi.com"
+
+msgid "Donations"
+msgstr "Donaciones"

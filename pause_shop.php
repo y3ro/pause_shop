@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, and show a notice, for a limited 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.4.1
+Version: 0.4.2
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -81,9 +81,9 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: add ko-fi link and message
 // TODO: help in same flex-wrapped row as the settings
 // TODO: add REST endpoints for every possible action
+// TODO: no need for english localization files
 
 function echo_help_text() {
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
@@ -99,6 +99,21 @@ function echo_help_text() {
     <pre><?php echo $unpause_curl; ?></pre>
     <p><?php echo $unpause_help; ?></p>
     <?php    
+}
+
+// TODO: move all __() to variables
+function echo_contact_text() {
+    $ko_fi_link = 'https://ko-fi.com/y3ro752694';
+    $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
+    ?>
+    <h3><?php echo __('Donations', 'pause-shop'); ?></h3>
+    <p><?php echo $ko_fi_msg; ?></p>
+    <a href="<?php echo $ko_fi_link; ?>" target="_blank">
+        <img height="36" style="border:0px;height:36px;" 
+        src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
+        alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" />
+    </a>
+    <?php
 }
 
 function pause_shop_settings_page() {
@@ -143,6 +158,9 @@ function pause_shop_settings_page() {
     </div>
     <div>
         <?php echo_help_text(); ?>
+    </div>
+    <div>
+        <?php echo_contact_text(); ?>
     </div>
     <?php
 }

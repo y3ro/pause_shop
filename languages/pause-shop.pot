@@ -35,3 +35,12 @@ msgstr ""
 
 msgid "Available REST endpoints"
 msgstr ""
+
+msgid "If you like this plugin and want me to keep working on it, please consider buying me a coffee :)"
+msgstr ""
+
+msgid "Buy Me a Coffee at ko-fi.com"
+msgstr ""
+
+msgid "Donations"
+msgstr ""
