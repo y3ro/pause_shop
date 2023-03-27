@@ -26,3 +26,12 @@ msgstr "End time"
 
 msgid "E.g. 08:30:00"
 msgstr "E.g. 08:30:00"
+
+msgid "This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time."
+msgstr "This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time."
+
+msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
+msgstr "This will enable the add-to-cart and checkout buttons, and hide the notice."
+
+msgid "Available REST endpoints"
+msgstr "Available REST endpoints"

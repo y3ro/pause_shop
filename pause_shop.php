@@ -84,7 +84,6 @@ add_action('admin_menu', 'pause_shop_menu');
 // TODO: add ko-fi link and message
 // TODO: help in same flex-wrapped row as the settings
 // TODO: add REST endpoints for every possible action
-// TODO: localize help text
 
 function echo_help_text() {
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
