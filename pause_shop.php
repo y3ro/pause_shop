@@ -86,6 +86,9 @@ add_action('admin_menu', 'pause_shop_menu');
 // TODO: no need for english localization files
 // TODO: add a link to repo
 // TODO: option to hide donations
+// TODO: option to disable time-based pause
+// TODO: add link to application passwords doc
+// TODO: mention "disable orders" for SEO
 
 function echo_help_text() {
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
@@ -104,18 +107,20 @@ function echo_help_text() {
 }
 
 // TODO: move all __() to variables
-function echo_contact_text() {
+function echo_donations_text() {
+    $show_donations = true;  # this can only be changed here
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
-    ?>
-    <h3><?php echo __('Donations', 'pause-shop'); ?></h3>
-    <p><?php echo $ko_fi_msg; ?></p>
-    <a href="<?php echo $ko_fi_link; ?>" target="_blank"> <!-- TODO: use esc_url -->
-        <img height="36" style="border:0px;height:36px;" 
-        src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-        alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" /> <!-- TODO: use esc_attr -->
-    </a>
-    <?php
+    
+    if ($show_donations): ?>
+        <h3><?php echo __('Donations', 'pause-shop'); ?></h3>
+        <p><?php echo $ko_fi_msg; ?></p>
+        <a href="<?php echo $ko_fi_link; ?>" target="_blank"> <!-- TODO: use esc_url -->
+            <img height="36" style="border:0px;height:36px;" 
+            src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
+            alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" /> <!-- TODO: use esc_attr -->
+        </a>
+    <?php endif;
 }
 
 function pause_shop_settings_page() {
@@ -172,7 +177,7 @@ function pause_shop_settings_page() {
         <div style="
             max-width: 19rem;
             margin-left: 2rem;">
-            <?php echo_contact_text(); ?>
+            <?php echo_donations_text(); ?>
         </div>
     </div>
     <?php
