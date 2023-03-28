@@ -83,7 +83,6 @@ add_action('admin_menu', 'pause_shop_menu');
 /* Admin settings page */
 
 // TODO: add REST endpoints for every possible action
-// TODO: no need for english localization files
 // TODO: add readme
 
 function echo_help_text() {
