@@ -91,14 +91,16 @@ add_action('admin_menu', 'pause_shop_menu');
 // TODO: mention "disable orders" for SEO
 
 function echo_help_text() {
+    $help_title = __('Available REST endpoints', 'pause-shop');
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
     $unpause_endpoint = get_rest_url(null, 'pause_shop/v0/unpause_shop');
     $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time.', 'pause-shop'); // TODO: more precisely, until disabled
     $unpause_help = __('This will enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop');
     $pause_curl = "curl -X POST $pause_endpoint";
     $unpause_curl = "curl -X POST $unpause_endpoint";
+    
     ?>
-    <h3><?php echo __('Available REST endpoints', 'pause-shop'); ?></h3>
+    <h3><?php echo $help_title; ?></h3>
     <pre><?php echo $pause_curl; ?></pre>
     <p><?php echo $pause_help; ?></p>
     <pre><?php echo $unpause_curl; ?></pre>
@@ -106,33 +108,39 @@ function echo_help_text() {
     <?php    
 }
 
-// TODO: move all __() to variables
 function echo_donations_text() {
     $show_donations = true;  # this can only be changed here
+    $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
+    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com');
     
     if ($show_donations): ?>
-        <h3><?php echo __('Donations', 'pause-shop'); ?></h3>
+        <h3><?php echo $donations_title ?></h3>
         <p><?php echo $ko_fi_msg; ?></p>
         <a href="<?php echo $ko_fi_link; ?>" target="_blank"> <!-- TODO: use esc_url -->
             <img height="36" style="border:0px;height:36px;" 
             src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-            alt="<?php echo __('Buy Me a Coffee at ko-fi.com'); ?>" /> <!-- TODO: use esc_attr -->
+            alt="<?php echo $ko_fi_btn_image_alt; ?>" /> <!-- TODO: use esc_attr -->
         </a>
     <?php endif;
 }
 
 function pause_shop_settings_page() {
+    $settings_page_title = __('Pause shop Settings', 'pause-shop');
+    $timezone_title = __('Timezone', 'pause-shop');
+    $begin_time_title = __('Begin time', 'pause-shop');
+    $end_time_title = __('End time', 'pause-shop');
+
     ?>
     <div class="wrap">
-        <h2><?php echo __('Pause shop Settings', 'pause-shop'); ?></h2>
+        <h2><?php echo $settings_page_title; ?></h2>
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>
             <table class="form-table">
                 <tr valign="top">
-                    <th scope="row"><?php echo __('Timezone', 'pause-shop'); ?></th>
+                    <th scope="row"><?php echo $timezone_title; ?></th>
                     <td>
                         <select name="timezone">
                         <?php
@@ -146,14 +154,14 @@ function pause_shop_settings_page() {
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo __('Begin time', 'pause-shop'); ?></th>
+                    <th scope="row"><?php echo $begin_time_title; ?></th>
                     <td>
                         <input type="time" name="begin_time" 
                         value="<?php echo esc_attr(get_option('begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo __('End time', 'pause-shop'); ?></th>
+                    <th scope="row"><?php echo $end_time_title; ?></th>
                     <td>
                         <input type="time" name="end_time" 
                         value="<?php echo esc_attr(get_option('end_time')); ?>" />
