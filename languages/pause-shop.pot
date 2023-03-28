@@ -44,3 +44,6 @@ msgstr ""
 
 msgid "Donations"
 msgstr ""
+
+msgid "Enable time pause"
+msgstr ""

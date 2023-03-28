@@ -44,3 +44,6 @@ msgstr "Invítame a un café en ko-fi.com"
 
 msgid "Donations"
 msgstr "Donaciones"
+
+msgid "Enable time pause"
+msgstr "Habilitar pausa de tiempo"

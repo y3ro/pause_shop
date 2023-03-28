@@ -44,6 +44,7 @@ function pause_shop() {
     date_default_timezone_set(get_option('timezone'));
 
     $pause = get_option('pause') ?: false;
+    $time_pause_enabled = get_option('time_pause_enabled') ?: false;
 
     $begin_time = get_option('begin_time');
     $end_time = get_option('end_time');
@@ -53,7 +54,7 @@ function pause_shop() {
         return;
     }
 
-    if ($pause || $time <= $end_time && $time >= $begin_time) {
+    if ($pause || $time_pause_enabled && $time <= $end_time && $time >= $begin_time) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
 		add_filter('woocommerce_order_button_html', 'filter_order_button_html', 10, 2);
@@ -81,14 +82,12 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: help in same flex-wrapped row as the settings
 // TODO: add REST endpoints for every possible action
 // TODO: no need for english localization files
 // TODO: add a link to repo
-// TODO: option to hide donations
-// TODO: option to disable time-based pause
 // TODO: add link to application passwords doc
 // TODO: mention "disable orders" for SEO
+// TODO: add readme
 
 function echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
@@ -128,6 +127,9 @@ function echo_donations_text() {
 
 function pause_shop_settings_page() {
     $settings_page_title = __('Pause shop Settings', 'pause-shop');
+    $time_pause_enabled_title = __('Enable time pause', 'pause-shop');
+    $time_pause_enabled = get_option('time_pause_enabled') ?: false;
+    $time_pause_enabled_checked_str = $time_pause_enabled ? 'checked' : '';
     $timezone_title = __('Timezone', 'pause-shop');
     $begin_time_title = __('Begin time', 'pause-shop');
     $end_time_title = __('End time', 'pause-shop');
@@ -140,9 +142,14 @@ function pause_shop_settings_page() {
             <?php do_settings_sections('pause-shop-settings-group'); ?>
             <table class="form-table">
                 <tr valign="top">
+                    <input id="time-pause-enabled" type="checkbox" name="time_pause_enabled" 
+                    <?php echo $time_pause_enabled_checked_str; ?>>
+                    <label for="time_pause_enabled"><?php echo $time_pause_enabled_title; ?></label>
+                </tr>
+                <tr valign="top">
                     <th scope="row"><?php echo $timezone_title; ?></th>
                     <td>
-                        <select name="timezone">
+                        <select name="timezone" class="time-pause-input">
                         <?php
                                 $timezones = DateTimeZone::listIdentifiers();
                                 foreach($timezones as $timezone) {
@@ -156,14 +163,14 @@ function pause_shop_settings_page() {
                 <tr valign="top">
                     <th scope="row"><?php echo $begin_time_title; ?></th>
                     <td>
-                        <input type="time" name="begin_time" 
+                        <input type="time" name="begin_time" class="time-pause-input"
                         value="<?php echo esc_attr(get_option('begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo $end_time_title; ?></th>
                     <td>
-                        <input type="time" name="end_time" 
+                        <input type="time" name="end_time" class="time-pause-input"
                         value="<?php echo esc_attr(get_option('end_time')); ?>" />
                     </td>
                 </tr>
@@ -198,6 +205,7 @@ function pause_shop_register_settings() {
     register_setting('pause-shop-settings-group', 'begin_time');
     register_setting('pause-shop-settings-group', 'end_time');
     register_setting('pause-shop-settings-group', 'pause');
+    register_setting('pause-shop-settings-group', 'time_pause_enabled');
 }
 add_action('admin_init', 'pause_shop_register_settings');
 
@@ -231,4 +239,13 @@ function pause_shop_register_rest_routes() {
     ) );
 }
 
-add_action( 'rest_api_init', 'pause_shop_register_rest_routes' );
+add_action('rest_api_init', 'pause_shop_register_rest_routes');
+
+/* JS */
+
+// TODO: does not work
+function pause_shop_enqueue_scripts() {
+    wp_enqueue_script('pause_shop', plugins_url('/js/pause_shop.js', __FILE__ ));
+}
+
+add_action('wp_enqueue_scripts', 'pause_shop_enqueue_scripts');

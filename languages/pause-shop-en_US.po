@@ -44,3 +44,6 @@ msgstr "Buy Me a Coffee at ko-fi.com"
 
 msgid "Donations"
 msgstr "Donations"
+
+msgid "Enable time pause"
+msgstr "Enable time pause"
