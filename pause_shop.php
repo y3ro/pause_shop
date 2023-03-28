@@ -203,22 +203,11 @@ function pause_shop_settings_page() {
             <?php submit_button(); ?>
         </form>
     </div>
-    <!-- TODO: styles to CSS -->
-    <div style="
-        display: flex;
-        flex-wrap: wrap;">
-        <div style="
-            max-width: 30rem;
-            overflow-wrap: anywhere;
-            margin-right: 2rem;
-            ">
-            <?php echo_help_text(); ?>
-        </div>
-        <div style="
-            max-width: 19rem;
-            margin-left: 2rem;">
-            <?php echo_donations_text(); ?>
-        </div>
+    <div>
+        <?php echo_help_text(); ?>
+    </div>
+    <div>
+        <?php echo_donations_text(); ?>
     </div>
     <?php
 }
