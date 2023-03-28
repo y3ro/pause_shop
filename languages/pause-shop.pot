@@ -27,7 +27,7 @@ msgstr ""
 msgid "E.g. 08:30:00"
 msgstr ""
 
-msgid "This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time."
+msgid "This will disable the add-to-cart and checkout buttons, and show a notice."
 msgstr ""
 
 msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
@@ -46,4 +46,13 @@ msgid "Donations"
 msgstr ""
 
 msgid "Enable time pause"
+msgstr ""
+
+msgid "WordPress documentation"
+msgstr ""
+
+msgid "You can use application passwords to authenticate. See the %s for more information."
+msgstr ""
+
+msgid "Source code"
 msgstr ""

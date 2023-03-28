@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Pause shop
-Description: Disable add-to-cart and checkout, and show a notice, for a limited amount of time.
+Description: Disable add-to-cart and checkout, disabling creating new orders, and show a notice. 
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
@@ -84,26 +84,51 @@ add_action('admin_menu', 'pause_shop_menu');
 
 // TODO: add REST endpoints for every possible action
 // TODO: no need for english localization files
-// TODO: add a link to repo
-// TODO: add link to application passwords doc
-// TODO: mention "disable orders" for SEO
 // TODO: add readme
 
 function echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
+
     $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
     $unpause_endpoint = get_rest_url(null, 'pause_shop/v0/unpause_shop');
-    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice, for a limited amount of time.', 'pause-shop'); // TODO: more precisely, until disabled
+    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice.', 'pause-shop');
     $unpause_help = __('This will enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop');
-    $pause_curl = "curl -X POST $pause_endpoint";
-    $unpause_curl = "curl -X POST $unpause_endpoint";
+    $pause_curl = "curl --user \"USERNAME:PASSWORD\" -X POST $pause_endpoint";
+    $unpause_curl = "curl --user \"USERNAME:PASSWORD\" -X POST $unpause_endpoint";
+
+    $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";
+    $wp_app_passwds_doc_link_text = __('WordPress documentation', 'pause-shop');
+    $wp_app_passwds_doc_a = "<a href=\"$wp_app_passwds_doc_link\" target=\"_blank\">$wp_app_passwds_doc_link_text</a>";
+    $wp_app_passwds_text = sprintf(__("You can use application passwords to authenticate. See the %s for more information.", 'pause-shop'), 
+                                   $wp_app_passwds_doc_a);
+    
+    $source_code_link = "https://github.com/y3ro/pause_shop";
+    $source_code_link_text = __("Source code", "pause-shop");
     
     ?>
-    <h3><?php echo $help_title; ?></h3>
-    <pre><?php echo $pause_curl; ?></pre>
-    <p><?php echo $pause_help; ?></p>
-    <pre><?php echo $unpause_curl; ?></pre>
-    <p><?php echo $unpause_help; ?></p>
+    <h3>
+        <?php echo $help_title; ?>
+    </h3>
+    <pre>
+        <?php echo $pause_curl; ?>
+    </pre>
+    <p>
+        <?php echo $pause_help; ?>
+    </p>
+    <pre>
+        <?php echo $unpause_curl; ?>
+    </pre>
+    <p>
+        <?php echo $unpause_help; ?>
+    </p>
+    <p>
+        <?php echo $wp_app_passwds_text; ?>
+    </p>
+    <p>
+        <a href="<?php echo $source_code_link; ?>" target="_blank">
+            <?php echo $source_code_link_text;?>
+        </a>
+    </p>
     <?php    
 }
 
