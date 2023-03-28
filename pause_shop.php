@@ -36,7 +36,7 @@ function filter_order_button_html() {
 function block_order() {
     $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
                    'pause-shop' );
-    wp_die($loc_msg);
+    wp_die($loc_msg);  // TODO: what is the right format?
 }
 
 function pause_shop() {
@@ -113,15 +113,15 @@ function echo_donations_text() {
     $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
-    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com');
+    $ko_fi_btn_image_alt = esc_attr__('Buy Me a Coffee at ko-fi.com');
     
     if ($show_donations): ?>
         <h3><?php echo $donations_title ?></h3>
         <p><?php echo $ko_fi_msg; ?></p>
-        <a href="<?php echo $ko_fi_link; ?>" target="_blank"> <!-- TODO: use esc_url -->
+        <a href="<?php echo $ko_fi_link; ?>" target="_blank">
             <img height="36" style="border:0px;height:36px;" 
             src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-            alt="<?php echo $ko_fi_btn_image_alt; ?>" /> <!-- TODO: use esc_attr -->
+            alt="<?php echo $ko_fi_btn_image_alt; ?>" />
         </a>
     <?php endif;
 }
