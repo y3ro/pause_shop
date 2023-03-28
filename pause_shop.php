@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.4.2
+Version: 0.4.3
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
