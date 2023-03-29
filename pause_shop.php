@@ -50,10 +50,6 @@ function pause_shop() {
     $end_time = get_option('end_time');
     $time = date('H:i:s');
 
-    if (!$pause && (!$begin_time || !$end_time)) {
-        return;
-    }
-
     if ($pause || $time_pause_enabled && $time <= $end_time && $time >= $begin_time) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
