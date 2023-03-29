@@ -39,25 +39,55 @@ function block_order() {
     wp_die($loc_msg);  // TODO: what is the right format?
 }
 
-function pause_shop() {
+function is_pause_day() {
+    $periodicity = get_option('periodicity') ?: 'daily';
+    $begin_date_period = get_option('begin_date_period') ?: '2000-01-01';
+    $today = date('Y-m-d');
+
+    switch ($periodicity) {
+        case 'daily':
+            return true;
+        case 'weekly':
+            $weekday_number_period = date('N', strtotime($begin_date_period));
+            $weekday_number_today = date('N', strtotime($today));
+            return $weekday_number_period == $weekday_number_today;
+        case 'monthly':
+            $day_number_period = date('d', strtotime($begin_date_period));
+            $day_number_today = date('d', strtotime($today));
+            return $day_number_period == $day_number_today;
+        default:
+            return false;
+    }
+}
+
+function is_time_paused() {
     $timezone = date_default_timezone_get();
     date_default_timezone_set(get_option('timezone'));
 
-    $pause = get_option('pause') ?: false;
     $time_pause_enabled = get_option('time_pause_enabled') ?: false;
 
     $begin_time = get_option('begin_time');
     $end_time = get_option('end_time');
     $time = date('H:i:s');
 
-    if ($pause || $time_pause_enabled && $time <= $end_time && $time >= $begin_time) {
+    $is_time_paused = $time_pause_enabled &&
+        is_pause_day() &&    
+        $time <= $end_time && $time >= $begin_time;
+
+    date_default_timezone_set($timezone);
+
+    return $is_time_paused;
+}
+
+function pause_shop() {
+    $paused = get_option('pause') ?: false;
+
+    if ($paused || is_time_paused()) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
 		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
 		add_filter('woocommerce_order_button_html', 'filter_order_button_html', 10, 2);
         add_action('woocommerce_before_checkout_process', 'block_order');
     }
-
-    date_default_timezone_set($timezone);
 }
 
 add_action('wp', 'pause_shop');
@@ -80,6 +110,7 @@ add_action('admin_menu', 'pause_shop_menu');
 
 // TODO: add REST endpoints for every possible action
 // TODO: add readme
+// TODO: add button to pause/unpause shop
 
 function echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
@@ -153,6 +184,8 @@ function pause_shop_settings_page() {
     $timezone_title = __('Timezone', 'pause-shop');
     $begin_time_title = __('Begin time', 'pause-shop');
     $end_time_title = __('End time', 'pause-shop');
+    $periodicity_title = __('Periodicity', 'pause-shop');
+    $begin_date_period_title = __('Begin date', 'pause-shop');
 
     ?>
     <div class="wrap">
@@ -171,11 +204,11 @@ function pause_shop_settings_page() {
                     <td>
                         <select name="timezone" class="time-pause-input">
                         <?php
-                                $timezones = DateTimeZone::listIdentifiers();
-                                foreach($timezones as $timezone) {
-                                    $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
-                                    echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
-                                }
+                            $timezones = DateTimeZone::listIdentifiers();
+                            foreach($timezones as $timezone) {
+                                $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
+                                echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
+                            }
                         ?>
                         </select>
                     </td>
@@ -192,6 +225,28 @@ function pause_shop_settings_page() {
                     <td>
                         <input type="time" name="end_time" class="time-pause-input"
                         value="<?php echo esc_attr(get_option('end_time')); ?>" />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $periodicity_title; ?></th>
+                    <td>
+                        <select name="periodicity" class="time-pause-input">
+                        <?php
+                            $periodicities = array('daily', 'weekly', 'monthly');
+                            foreach($periodicities as $periodicity) {
+                                $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
+                                echo "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
+                                    __($periodicity, 'pause-shop') . "</option>";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $begin_date_period_title; ?></th>
+                    <td>
+                        <input type="date" name="begin_date_period" class="time-pause-input"
+                        value="<?php echo esc_attr(get_option('begin_date_period')); ?>" />
                     </td>
                 </tr>
             </table>
@@ -215,6 +270,8 @@ function pause_shop_register_settings() {
     register_setting('pause-shop-settings-group', 'end_time');
     register_setting('pause-shop-settings-group', 'pause');
     register_setting('pause-shop-settings-group', 'time_pause_enabled');
+    register_setting('pause-shop-settings-group', 'begin_date_period');
+    register_setting('pause-shop-settings-group', 'periodicity');
 }
 add_action('admin_init', 'pause_shop_register_settings');
 

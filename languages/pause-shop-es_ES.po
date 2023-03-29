@@ -33,6 +33,21 @@ msgstr "Esto deshabilitará los botones de añadir al carrito y de pago, y mostr
 msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
 msgstr "Esto habilitará los botones de añadir al carrito y de pago, y ocultará la notificación."
 
+msgid "Periodicity"
+msgstr "Periodicidad"
+
+msgid "Begin date"
+msgstr "Fecha de comienzo"
+
+msgid "daily"
+msgstr "diariamente"
+
+msgid "weekly"
+msgstr "semanalmente"
+
+msgid "monthly"
+msgstr "mensualmente"
+
 msgid "Available REST endpoints"
 msgstr "REST endpoints disponibles"
 

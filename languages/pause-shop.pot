@@ -33,6 +33,21 @@ msgstr ""
 msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
 msgstr ""
 
+msgid "Periodicity"
+msgstr ""
+
+msgid "Begin date"
+msgstr ""
+
+msgid "daily"
+msgstr ""
+
+msgid "weekly"
+msgstr ""
+
+msgid "monthly"
+msgstr ""
+
 msgid "Available REST endpoints"
 msgstr ""
 
