@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.5.0
+Version: 0.6.0
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -108,7 +108,6 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: add REST endpoints for every possible action
 // TODO: show message indicating that time-based pause is on at the moment
 // TODO: add readme
 
@@ -290,7 +289,7 @@ function pause_shop_register_settings() {
     register_setting('pause-shop-settings-group', 'timezone');
     register_setting('pause-shop-settings-group', 'begin_time');
     register_setting('pause-shop-settings-group', 'end_time');
-    register_setting('pause-shop-settings-group', 'pause');
+    register_setting('pause-shop-settings-group', 'pause'); // TODO: rename to paused
     register_setting('pause-shop-settings-group', 'time_pause_enabled');
     register_setting('pause-shop-settings-group', 'begin_date_period');
     register_setting('pause-shop-settings-group', 'periodicity');
@@ -309,6 +308,88 @@ function deactivate_pause() {
     return array( 'success' => true );
 }
 
+function set_timezone() {
+    $timezone = $_POST['value'];
+    $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
+
+    if (!in_array($timezone, $timezones)) {
+        return array( 
+            'success' => false, 'error' => 'Invalid timezone' );
+    }
+
+    update_option( 'timezone', $timezone );
+    return array( 'success' => true );
+}
+
+function _is_valid_time($time_str) {
+    return preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $time_str); // TODO: test (and endpoints)
+}
+
+function set_begin_time() {
+    $begin_time = $_POST['value'];
+
+    if (!_is_valid_time($begin_time)) {
+        return array( 
+            'success' => false, 'error' => 'Invalid date' );
+    }
+
+    update_option( 'begin_time', $begin_time );
+    return array( 'success' => true );
+}
+
+function set_end_time () {
+    $end_time = $_POST['value'];
+
+    if (!_is_valid_time($end_time)) {
+        return array( 
+            'success' => false, 'error' => 'Invalid date' );
+    }
+
+    update_option( 'end_time', $end_time );
+    return array( 'success' => true );
+}
+
+function enable_time_pause() {
+    update_option( 'time_pause_enabled', true );
+    return array( 'success' => true );
+}
+
+function disable_time_pause() {
+    update_option( 'time_pause_enabled', false );
+    return array( 'success' => true );
+}
+
+function set_periodicity() {
+    $periodicity = $_POST['value'];
+    $periodicities = array('daily', 'weekly', 'monthly');
+
+    if (!in_array($periodicity, $periodicities)) {
+        return array( 
+            'success' => false, 'error' => 'Invalid periodicity' );
+    }
+
+    update_option( 'periodicity', $periodicity );
+    return array( 'success' => true );
+}
+
+function _is_valid_date($date_str) {
+    $date = DateTime::createFromFormat('Y-m-d', $date_str);
+
+    return $date->format('Y-m-d') === $date_str;
+}
+
+function set_begin_date_period() {
+    $begin_date_period = $_POST['value'];
+
+    if (!_is_valid_date($begin_date_period)) {
+        return array( 
+            'success' => false, 'error' => 'Invalid date' );
+    }
+
+    update_option( 'begin_date_period', $begin_date_period );
+    return array( 'success' => true );
+}
+
 function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/pause_shop', array(
         'methods' => 'POST',
@@ -321,6 +402,132 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/unpause_shop', array(
         'methods' => 'POST',
         'callback' => 'deactivate_pause',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/is_paused', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'paused' => get_option('pause') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/set_timezone', array(
+        'methods' => 'POST',
+        'callback' => 'set_timezone',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/get_timezone', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'timezone' => get_option('timezone') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/set_begin_time', array(
+        'methods' => 'POST',
+        'callback' => 'set_begin_time',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/get_begin_time', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'begin_time' => get_option('begin_time') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/set_end_time', array(
+        'methods' => 'POST',
+        'callback' => 'set_end_time',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/get_end_time', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'end_time' => get_option('end_time') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/enable_time_pause', array(
+        'methods' => 'POST',
+        'callback' => 'enable_time_pause',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/disable_time_pause', array(
+        'methods' => 'POST',
+        'callback' => 'disable_time_pause',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/is_time_pause_enabled', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'time_pause_enabled' => get_option('time_pause_enabled') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/set_periodicity', array(
+        'methods' => 'POST',
+        'callback' => 'set_periodicity',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/get_periodicity', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'periodicity' => get_option('periodicity') );
+        },
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/set_begin_date_period', array(
+        'methods' => 'POST',
+        'callback' => 'set_begin_date_period',
+        'permission_callback' => function () {
+            return current_user_can( 'manage_options' );
+        },
+    ) );
+
+    register_rest_route( 'pause_shop/v0', '/get_begin_date_period', array(
+        'methods' => 'GET',
+        'callback' => function () {
+            return array( 'begin_date_period' => get_option('begin_date_period') );
+        },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
