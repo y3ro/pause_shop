@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.4.3
+Version: 0.5.0
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -109,8 +109,25 @@ add_action('admin_menu', 'pause_shop_menu');
 /* Admin settings page */
 
 // TODO: add REST endpoints for every possible action
+// TODO: show message indicating that time-based pause is on at the moment
 // TODO: add readme
-// TODO: add button to pause/unpause shop
+
+function echo_pause_unpause_button() {
+    $pause = get_option('pause') ?: false;
+    $pause_text = __('Pause shop', 'pause-shop');
+    $unpause_text = __('Unpause shop', 'pause-shop');
+    $button_text = $pause ? $unpause_text : $pause_text;
+    ?>
+    <form method="post" action="options.php">
+        <?php settings_fields('pause-shop-settings-group'); ?>
+        <?php do_settings_sections('pause-shop-settings-group'); ?>
+        <input type="hidden" name="pause" class="button button-primary" 
+            value="<?php echo esc_attr(!$pause); ?>">
+            <?php submit_button(
+                $button_text, 'primary', 'submit', true,
+                array("style" => "font-size: 18px;")); ?>
+    <?php
+}
 
 function echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
@@ -190,6 +207,11 @@ function pause_shop_settings_page() {
     ?>
     <div class="wrap">
         <h2><?php echo $settings_page_title; ?></h2>
+        <div>
+            <?php echo_pause_unpause_button(); ?>
+        </div>
+        <!-- TODO: to its own echo function -->
+        <h3><?php echo __('Periodic time pause', 'pause-shop'); ?></h3>
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>

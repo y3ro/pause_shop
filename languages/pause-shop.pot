@@ -9,6 +9,15 @@ msgstr ""
 msgid "Pause shop Settings"
 msgstr ""
 
+msgid "Pause shop"
+msgstr ""
+
+msgid "Unpause shop"
+msgstr ""
+
+msgid "Periodic time pause"
+msgstr ""
+
 msgid "Timezone"
 msgstr ""
 
