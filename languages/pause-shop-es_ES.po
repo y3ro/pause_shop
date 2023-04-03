@@ -9,6 +9,18 @@ msgstr "La función de compra se ha deshabilitado mientras realizamos tareas de 
 msgid "Pause shop Settings"
 msgstr "Configuración de Pause shop"
 
+msgid "Pause on demand"
+msgstr "Pausa bajo demanda"
+
+msgid "State"
+msgstr "Estado"
+
+msgid "Paused"
+msgstr "Pausado"
+
+msgid "Unpaused"
+msgstr "No pausado"
+
 msgid "Pause shop"
 msgstr "Pausar la tienda"
 

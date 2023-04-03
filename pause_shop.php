@@ -108,15 +108,21 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: show message indicating that scheduled-based pause is on at the moment
 // TODO: add readme
 
 function echo_pause_unpause_button() {
     $pause = get_option('pause') ?: false;
+    $pause_on_demand_title = __('Pause on demand', 'pause-shop');
+    $pause_state_title = __('State', 'pause-shop');
+    $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
     $pause_text = __('Pause shop', 'pause-shop');
     $unpause_text = __('Unpause shop', 'pause-shop');
     $button_text = $pause ? $unpause_text : $pause_text;
     ?>
+    <h3><?php echo $pause_on_demand_title; ?></h3>
+    <p>
+        <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
+    </p>
     <form method="post" action="options.php">
         <?php settings_fields('pause-shop-settings-group'); ?>
         <?php do_settings_sections('pause-shop-settings-group'); ?>
@@ -235,6 +241,9 @@ function echo_donations_text() {
 function pause_shop_settings_page() {
     $settings_page_title = __('Pause shop Settings', 'pause-shop');
     $scheduled_pause_enabled_title = __('Enable scheduled pause', 'pause-shop');
+    $pause = is_scheduled_paused();
+    $pause_state_title = __('State', 'pause-shop');
+    $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
     $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
     $scheduled_pause_enabled_checked_str = $scheduled_pause_enabled ? 'checked' : '';
     $timezone_title = __('Timezone', 'pause-shop');
@@ -251,6 +260,9 @@ function pause_shop_settings_page() {
         </div>
         <!-- TODO: to its own echo function -->
         <h3><?php echo __('Scheduled pause', 'pause-shop'); ?></h3>
+        <p>
+            <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
+        </p>
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>

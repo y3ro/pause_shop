@@ -9,6 +9,18 @@ msgstr ""
 msgid "Pause shop Settings"
 msgstr ""
 
+msgid "Pause on demand"
+msgstr ""
+
+msgid "State"
+msgstr ""
+
+msgid "Paused"
+msgstr ""
+
+msgid "Unpaused"
+msgstr ""
+
 msgid "Pause shop"
 msgstr ""
 
