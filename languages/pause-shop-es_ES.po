@@ -99,8 +99,11 @@ msgstr "Deshabilitar los botones de añadir al carrito y de pago, y mostrará un
 msgid "Enable the add-to-cart and checkout buttons, and hide the notice."
 msgstr "Habilitar los botones de añadir al carrito y de pago, y ocultará la notificación."
 
-msgid "Return the current pause status."
-msgstr "Obtiene el estado actual de pausa."
+msgid "Return the current on-demand pause status."
+msgstr "Obtiene el estado actual de la pausa bajo demanda."
+
+msgid "Return the current scheduled pause status."
+msgstr "Obtiene el estado actual de la pausa programada."
 
 msgid "Set timezone for the scheduled pause."
 msgstr "Fija la zona horaria para la pausa programada."

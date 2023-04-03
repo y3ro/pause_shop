@@ -99,7 +99,10 @@ msgstr ""
 msgid "Enable the add-to-cart and checkout buttons, and hide the notice."
 msgstr ""
 
-msgid "Return the current pause status."
+msgid "Return the current on-demand pause status."
+msgstr ""
+
+msgid "Return the current scheduled pause status."
 msgstr ""
 
 msgid "Set timezone for the scheduled pause."
