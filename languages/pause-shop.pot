@@ -15,7 +15,7 @@ msgstr ""
 msgid "Unpause shop"
 msgstr ""
 
-msgid "Periodic time pause"
+msgid "Scheduled pause"
 msgstr ""
 
 msgid "Timezone"
@@ -69,7 +69,7 @@ msgstr ""
 msgid "Donations"
 msgstr ""
 
-msgid "Enable time pause"
+msgid "Enable scheduled pause"
 msgstr ""
 
 msgid "WordPress documentation"

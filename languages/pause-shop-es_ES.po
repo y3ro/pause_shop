@@ -15,8 +15,8 @@ msgstr "Pausar la tienda"
 msgid "Unpause shop"
 msgstr "Despausar la tienda"
 
-msgid "Periodic time pause"
-msgstr "Pausa periódica de tiempo"
+msgid "Scheduled pause"
+msgstr "Pausa programada"
 
 msgid "Timezone"
 msgstr "Zona horaria"
@@ -69,8 +69,8 @@ msgstr "Invítame a un café en ko-fi.com"
 msgid "Donations"
 msgstr "Donaciones"
 
-msgid "Enable time pause"
-msgstr "Habilitar pausa de tiempo"
+msgid "Enable scheduled pause"
+msgstr "Habilitar pausa programada"
 
 msgid "WordPress documentation"
 msgstr "Documentación de WordPress"
