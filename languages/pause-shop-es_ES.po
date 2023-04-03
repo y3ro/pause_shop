@@ -36,12 +36,6 @@ msgstr "Hora de finalización"
 msgid "E.g. 08:30:00"
 msgstr "P.ej. 08:30:00"
 
-msgid "This will disable the add-to-cart and checkout buttons, and show a notice."
-msgstr "Esto deshabilitará los botones de añadir al carrito y de pago, y mostrará una notificación."
-
-msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
-msgstr "Esto habilitará los botones de añadir al carrito y de pago, y ocultará la notificación."
-
 msgid "Periodicity"
 msgstr "Periodicidad"
 
@@ -80,3 +74,57 @@ msgstr "Puedes usar contraseñas de aplicación para autenticarte. Consulta la %
 
 msgid "Source code"
 msgstr "Código fuente"
+
+msgid "Endpoint"
+msgstr "Endpoint"
+
+msgid "Description"
+msgstr "Descripción"
+
+msgid "Disable the add-to-cart and checkout buttons, and show a notice."
+msgstr "Deshabilitar los botones de añadir al carrito y de pago, y mostrará una notificación."
+
+msgid "Enable the add-to-cart and checkout buttons, and hide the notice."
+msgstr "Habilitar los botones de añadir al carrito y de pago, y ocultará la notificación."
+
+msgid "Return the current pause status."
+msgstr "Obtiene el estado actual de pausa."
+
+msgid "Set timezone for the scheduled pause."
+msgstr "Fija la zona horaria para la pausa programada."
+
+msgid "Get timezone for the scheduled pause."
+msgstr "Obtiene la zona horaria para la pausa programada."
+
+msgid "Set begin time for the scheduled pause."
+msgstr "Fija la hora de comienzo para la pausa programada."
+
+msgid "Get begin time for the scheduled pause."
+msgstr "Obtiene la hora de comienzo para la pausa programada."
+
+msgid "Set end time for the scheduled pause."
+msgstr "Fija la hora de finalización para la pausa programada."
+
+msgid "Get end time for the scheduled pause."
+msgstr "Obtiene la hora de finalización para la pausa programada."
+
+msgid "Enable the scheduled pause."
+msgstr "Habilita la pausa programada."
+
+msgid "Disable the scheduled pause."
+msgstr "Deshabilita la pausa programada."
+
+msgid "Return the current scheduled pause status."
+msgstr "Obtiene el estado actual de la pausa programada."
+
+msgid "Set periodicity for the scheduled pause."
+msgstr "Fija la periodicidad para la pausa programada."
+
+msgid "Get periodicity for the scheduled pause."
+msgstr "Obtiene la periodicidad para la pausa programada."
+
+msgid "Set begin date for the scheduled pause."
+msgstr "Fija la fecha de comienzo para la pausa programada."
+
+msgid "Get begin date for the scheduled pause."
+msgstr "Obtiene la fecha de comienzo para la pausa programada."

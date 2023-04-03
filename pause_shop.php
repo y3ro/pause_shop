@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: Pause shop
-Description: Disable add-to-cart and checkout, disabling creating new orders, and show a notice. 
+Description: Disable add-to-cart and checkout, disabling creating new orders, and show a notice. For Woocommerce.
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.6.2
+Version: 0.6.3
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -128,15 +128,61 @@ function echo_pause_unpause_button() {
     <?php
 }
 
+// TODO: add example data
+function get_all_endpoints_info() {
+    $endpoints = array(
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/pause_shop') => 
+            __('Disable the add-to-cart and checkout buttons, and show a notice.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/unpause_shop') =>
+            __('Enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/is_paused') =>
+            __('Return the current pause status.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_timezone') =>
+            __('Set timezone for the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_timezone') =>
+            __('Get timezone for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_time') =>
+            __('Set begin time for the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_time') =>
+            __('Get begin time for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_end_time') =>
+            __('Set end time for the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_end_time') =>
+            __('Get end time for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/enable_scheduled_pause') => 
+            __('Enable the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/disable_scheduled_pause') =>
+            __('Disable the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/is_scheduled_pause_enabled') =>
+            __('Return the current scheduled pause status.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_periodicity') => 
+            __('Set periodicity for the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_periodicity') =>
+            __('Get periodicity for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_date_period') => 
+            __('Set begin date for the scheduled pause.', 'pause-shop'),
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_date_period') =>
+            __('Get begin date for the scheduled pause.', 'pause-shop'),
+    );
+
+    return $endpoints;
+}
+
+function echo_endpoints() {
+    $endpoints = get_all_endpoints_info();
+
+    foreach ($endpoints as $endpoint => $description) {
+        ?>
+        <tr>
+            <td><?php echo $endpoint; ?></td>
+            <td style="text-align: right;"><?php echo $description; ?></td>
+        </tr>
+        <?php
+    }
+}
+
 function echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
-
-    $pause_endpoint = get_rest_url(null, 'pause_shop/v0/pause_shop');
-    $unpause_endpoint = get_rest_url(null, 'pause_shop/v0/unpause_shop');
-    $pause_help = __('This will disable the add-to-cart and checkout buttons, and show a notice.', 'pause-shop');
-    $unpause_help = __('This will enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop');
-    $pause_curl = "curl --user \"USERNAME:PASSWORD\" -X POST $pause_endpoint";
-    $unpause_curl = "curl --user \"USERNAME:PASSWORD\" -X POST $unpause_endpoint";
 
     $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";
     $wp_app_passwds_doc_link_text = __('WordPress documentation', 'pause-shop');
@@ -151,18 +197,12 @@ function echo_help_text() {
     <h3>
         <?php echo $help_title; ?>
     </h3>
-    <pre>
-        <?php echo $pause_curl; ?>
-    </pre>
-    <p>
-        <?php echo $pause_help; ?>
-    </p>
-    <pre>
-        <?php echo $unpause_curl; ?>
-    </pre>
-    <p>
-        <?php echo $unpause_help; ?>
-    </p>
+    <table>
+        <tr>
+            <th><?php _e('Endpoint', 'pause-shop'); ?></th>
+            <th><?php _e('Description', 'pause-shop'); ?></th>
+        </tr>
+        <?php echo_endpoints(); ?>
     <p>
         <?php echo $wp_app_passwds_text; ?>
     </p>
@@ -275,10 +315,10 @@ function pause_shop_settings_page() {
         </form>
     </div>
     <div>
-        <?php echo_help_text(); ?>
+        <?php echo_donations_text(); ?>
     </div>
     <div>
-        <?php echo_donations_text(); ?>
+        <?php echo_help_text(); ?>
     </div>
     <?php
 }

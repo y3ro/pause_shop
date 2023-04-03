@@ -36,12 +36,6 @@ msgstr ""
 msgid "E.g. 08:30:00"
 msgstr ""
 
-msgid "This will disable the add-to-cart and checkout buttons, and show a notice."
-msgstr ""
-
-msgid "This will enable the add-to-cart and checkout buttons, and hide the notice."
-msgstr ""
-
 msgid "Periodicity"
 msgstr ""
 
@@ -79,4 +73,58 @@ msgid "You can use application passwords to authenticate. See the %s for more in
 msgstr ""
 
 msgid "Source code"
+msgstr ""
+
+msgid "Endpoint"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Disable the add-to-cart and checkout buttons, and show a notice."
+msgstr ""
+
+msgid "Enable the add-to-cart and checkout buttons, and hide the notice."
+msgstr ""
+
+msgid "Return the current pause status."
+msgstr ""
+
+msgid "Set timezone for the scheduled pause."
+msgstr ""
+
+msgid "Get timezone for the scheduled pause."
+msgstr ""
+
+msgid "Set begin time for the scheduled pause."
+msgstr ""
+
+msgid "Get begin time for the scheduled pause."
+msgstr ""
+
+msgid "Set end time for the scheduled pause."
+msgstr ""
+
+msgid "Get end time for the scheduled pause."
+msgstr ""
+
+msgid "Enable the scheduled pause."
+msgstr ""
+
+msgid "Disable the scheduled pause."
+msgstr ""
+
+msgid "Return the current scheduled pause status."
+msgstr ""
+
+msgid "Set periodicity for the scheduled pause."
+msgstr ""
+
+msgid "Get periodicity for the scheduled pause."
+msgstr ""
+
+msgid "Set begin date for the scheduled pause."
+msgstr ""
+
+msgid "Get begin date for the scheduled pause."
 msgstr ""
