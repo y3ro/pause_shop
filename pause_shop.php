@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.6.1
+Version: 0.6.2
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -108,7 +108,6 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: remove js
 // TODO: show message indicating that scheduled-based pause is on at the moment
 // TODO: add readme
 
@@ -536,12 +535,3 @@ function pause_shop_register_rest_routes() {
 }
 
 add_action('rest_api_init', 'pause_shop_register_rest_routes');
-
-/* JS */
-
-// TODO: does not work
-function pause_shop_enqueue_scripts() {
-    wp_enqueue_script('pause_shop', plugins_url('/js/pause_shop.js', __FILE__ ));
-}
-
-add_action('wp_enqueue_scripts', 'pause_shop_enqueue_scripts');
