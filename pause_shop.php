@@ -390,7 +390,7 @@ function deactivate_on_demand_pause() {
 }
 
 function set_timezone() {
-    $timezone = $_POST['value'];
+    $timezone = $_POST['timezone'];
     $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 
     if (!in_array($timezone, $timezones)) {
@@ -407,7 +407,7 @@ function _is_valid_time($time_str) {
 }
 
 function set_begin_time() {
-    $begin_time = $_POST['value'];
+    $begin_time = $_POST['begin_time'];
 
     if (!_is_valid_time($begin_time)) {
         return array( 
@@ -419,7 +419,7 @@ function set_begin_time() {
 }
 
 function set_end_time () {
-    $end_time = $_POST['value'];
+    $end_time = $_POST['end_time'];
 
     if (!_is_valid_time($end_time)) {
         return array( 
@@ -441,7 +441,7 @@ function disable_scheduled_pause() {
 }
 
 function set_periodicity() {
-    $periodicity = $_POST['value'];
+    $periodicity = $_POST['periodicity'];
     $periodicities = array('daily', 'weekly', 'monthly');
 
     if (!in_array($periodicity, $periodicities)) {
@@ -460,7 +460,7 @@ function _is_valid_date($date_str) {
 }
 
 function set_begin_date_period() {
-    $begin_date_period = $_POST['value'];
+    $begin_date_period = $_POST['begin_date'];
 
     if (!_is_valid_date($begin_date_period)) {
         return array( 
