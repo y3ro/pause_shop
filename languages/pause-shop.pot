@@ -143,3 +143,6 @@ msgstr ""
 
 msgid "Get begin date for the scheduled pause."
 msgstr ""
+
+msgid "Input data example"
+msgstr ""

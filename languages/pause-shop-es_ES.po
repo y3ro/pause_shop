@@ -143,3 +143,6 @@ msgstr "Fija la fecha de comienzo para la pausa programada."
 
 msgid "Get begin date for the scheduled pause."
 msgstr "Obtiene la fecha de comienzo para la pausa programada."
+
+msgid "Input data example"
+msgstr "Ejemplo de datos de entrada"

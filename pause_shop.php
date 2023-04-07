@@ -236,7 +236,6 @@ function echo_scheduled_pause_controls() {
         <?php
 }
 
-// TODO: add example data
 function get_all_endpoints_info() {
     $endpoints = array(
         "[POST] " . get_rest_url(null, 'pause_shop/v0/pause_shop') => 
@@ -248,15 +247,18 @@ function get_all_endpoints_info() {
         "[GET] " . get_rest_url(null, 'pause_shop/v0/is_schedule_paused') =>
             __('Return the current scheduled pause status.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/set_timezone') =>
-            __('Set timezone for the scheduled pause.', 'pause-shop'),
+            '<div>' . __('Set timezone for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"timezone": "Europe/Paris"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_timezone') =>
             __('Get timezone for the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_time') =>
-            __('Set begin time for the scheduled pause.', 'pause-shop'),
+            '<div>' . __('Set begin time for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_time": "01:00"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_time') =>
             __('Get begin time for the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/set_end_time') =>
-            __('Set end time for the scheduled pause.', 'pause-shop'),
+            '<div>' . __('Set end time for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"end_time": "01:30"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_end_time') =>
             __('Get end time for the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/enable_scheduled_pause') => 
@@ -266,11 +268,13 @@ function get_all_endpoints_info() {
         "[GET] " . get_rest_url(null, 'pause_shop/v0/is_scheduled_pause_enabled') =>
             __('Return the current scheduled pause status.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/set_periodicity') => 
-            __('Set periodicity for the scheduled pause.', 'pause-shop'),
+            '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"periodicity": "monthly"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_periodicity') =>
             __('Get periodicity for the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_date_period') => 
-            __('Set begin date for the scheduled pause.', 'pause-shop'),
+            '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_date": "2021-01-31"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_date_period') =>
             __('Get begin date for the scheduled pause.', 'pause-shop'),
     );
