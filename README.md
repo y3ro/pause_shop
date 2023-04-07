@@ -87,3 +87,13 @@ GET /wp-json/pause-shop/v0/is_scheduled_pause_enabled
 ## License
 
 This plugin is licensed under the Eclipse Public License 2.0. See the LICENSE file for more details.
+
+## Donations
+
+If you like this plugin and want to support its development, you can buy me a coffee at [Ko-fi](https://ko-fi.com/y3ro752694).
+
+<a href="https://ko-fi.com/y3ro752694" target="_blank">
+    <img height="36" style="border:0px;height:36px;" 
+    src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
+    alt="Buy me a coffe if you like this repo" />
+</a>
