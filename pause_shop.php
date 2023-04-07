@@ -110,8 +110,6 @@ add_action('admin_menu', 'pause_shop_menu');
 
 /* Admin settings page */
 
-// TODO: add readme
-
 function echo_pause_unpause_button() {
     $pause = get_option('on_demand_paused') ?: false;
     $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
