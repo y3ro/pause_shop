@@ -6,6 +6,7 @@ Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
 Version: 0.6.5
+License: MIT
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );

@@ -86,7 +86,7 @@ GET /wp-json/pause-shop/v0/is_scheduled_pause_enabled
 
 ## License
 
-This plugin is licensed under the Eclipse Public License 2.0. See the LICENSE file for more details.
+This plugin is licensed under the MIT License. See the LICENSE file for more details.
 
 ## Donations
 
