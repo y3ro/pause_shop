@@ -151,6 +151,91 @@ function echo_pause_unpause_button() {
     <?php
 }
 
+function echo_scheduled_pause_controls() {
+    $scheduled_pause_enabled_title = __('Enable scheduled pause', 'pause-shop');
+    $pause = is_scheduled_paused();
+    $on_demand_paused = get_option('on_demand_paused') ?: false;
+    $pause_state_title = __('State', 'pause-shop');
+    $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
+    $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
+    $scheduled_pause_enabled_checked_str = $scheduled_pause_enabled ? 'checked' : '';
+    $timezone_title = __('Timezone', 'pause-shop');
+    $begin_time_title = __('Begin time', 'pause-shop');
+    $end_time_title = __('End time', 'pause-shop');
+    $periodicity_title = __('Periodicity', 'pause-shop');
+    $begin_date_period_title = __('Begin date', 'pause-shop');
+
+    ?>
+    <h3><?php echo __('Scheduled pause', 'pause-shop'); ?></h3>
+        <p>
+            <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
+        </p>
+        <form method="post" action="options.php">
+            <?php settings_fields('pause-shop-settings-group'); ?>
+            <?php do_settings_sections('pause-shop-settings-group'); ?>
+            <input type="hidden" name="on_demand_paused" value="<?php echo $on_demand_paused; ?>">
+            <table class="form-table">
+                <tr valign="top">
+                    <input id="scheduled-pause-enabled" type="checkbox" name="scheduled_pause_enabled" 
+                    <?php echo $scheduled_pause_enabled_checked_str; ?>>
+                    <label for="scheduled_pause_enabled"><?php echo $scheduled_pause_enabled_title; ?></label>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $timezone_title; ?></th>
+                    <td>
+                        <select name="timezone" class="scheduled-pause-input">
+                        <?php
+                            $timezones = DateTimeZone::listIdentifiers();
+                            foreach($timezones as $timezone) {
+                                $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
+                                echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $begin_time_title; ?></th>
+                    <td>
+                        <input type="time" name="begin_time" class="scheduled-pause-input"
+                        value="<?php echo esc_attr(get_option('begin_time')); ?>" />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $end_time_title; ?></th>
+                    <td>
+                        <input type="time" name="end_time" class="scheduled-pause-input"
+                        value="<?php echo esc_attr(get_option('end_time')); ?>" />
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $periodicity_title; ?></th>
+                    <td>
+                        <select name="periodicity" class="scheduled-pause-input">
+                        <?php
+                            $periodicities = array('daily', 'weekly', 'monthly');
+                            foreach($periodicities as $periodicity) {
+                                $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
+                                echo "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
+                                    __($periodicity, 'pause-shop') . "</option>";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr valign="top">
+                    <th scope="row"><?php echo $begin_date_period_title; ?></th>
+                    <td>
+                        <input type="date" name="begin_date_period" class="scheduled-pause-input"
+                        value="<?php echo esc_attr(get_option('begin_date_period')); ?>" />
+                    </td>
+                </tr>
+            </table>
+            <?php submit_button(); ?>
+        </form>
+        <?php
+}
+
 // TODO: add example data
 function get_all_endpoints_info() {
     $endpoints = array(
@@ -259,93 +344,15 @@ function echo_donations_text() {
 
 function pause_shop_settings_page() {
     $settings_page_title = __('Pause shop Settings', 'pause-shop');
-    $scheduled_pause_enabled_title = __('Enable scheduled pause', 'pause-shop');
-    $pause = is_scheduled_paused();
-    $on_demand_paused = get_option('on_demand_paused') ?: false;
-    $pause_state_title = __('State', 'pause-shop');
-    $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
-    $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
-    $scheduled_pause_enabled_checked_str = $scheduled_pause_enabled ? 'checked' : '';
-    $timezone_title = __('Timezone', 'pause-shop');
-    $begin_time_title = __('Begin time', 'pause-shop');
-    $end_time_title = __('End time', 'pause-shop');
-    $periodicity_title = __('Periodicity', 'pause-shop');
-    $begin_date_period_title = __('Begin date', 'pause-shop');
-
     ?>
     <div class="wrap">
         <h2><?php echo $settings_page_title; ?></h2>
         <div>
             <?php echo_pause_unpause_button(); ?>
         </div>
-        <!-- TODO: to its own echo function -->
-        <h3><?php echo __('Scheduled pause', 'pause-shop'); ?></h3>
-        <p>
-            <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
-        </p>
-        <form method="post" action="options.php">
-            <?php settings_fields('pause-shop-settings-group'); ?>
-            <?php do_settings_sections('pause-shop-settings-group'); ?>
-            <input type="hidden" name="on_demand_paused" value="<?php echo $on_demand_paused; ?>">
-            <table class="form-table">
-                <tr valign="top">
-                    <input id="scheduled-pause-enabled" type="checkbox" name="scheduled_pause_enabled" 
-                    <?php echo $scheduled_pause_enabled_checked_str; ?>>
-                    <label for="scheduled_pause_enabled"><?php echo $scheduled_pause_enabled_title; ?></label>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php echo $timezone_title; ?></th>
-                    <td>
-                        <select name="timezone" class="scheduled-pause-input">
-                        <?php
-                            $timezones = DateTimeZone::listIdentifiers();
-                            foreach($timezones as $timezone) {
-                                $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
-                                echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
-                            }
-                        ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php echo $begin_time_title; ?></th>
-                    <td>
-                        <input type="time" name="begin_time" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('begin_time')); ?>" />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php echo $end_time_title; ?></th>
-                    <td>
-                        <input type="time" name="end_time" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('end_time')); ?>" />
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php echo $periodicity_title; ?></th>
-                    <td>
-                        <select name="periodicity" class="scheduled-pause-input">
-                        <?php
-                            $periodicities = array('daily', 'weekly', 'monthly');
-                            foreach($periodicities as $periodicity) {
-                                $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
-                                echo "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
-                                    __($periodicity, 'pause-shop') . "</option>";
-                            }
-                        ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr valign="top">
-                    <th scope="row"><?php echo $begin_date_period_title; ?></th>
-                    <td>
-                        <input type="date" name="begin_date_period" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('begin_date_period')); ?>" />
-                    </td>
-                </tr>
-            </table>
-            <?php submit_button(); ?>
-        </form>
+        <div>
+            <?php echo_scheduled_pause_controls(); ?>
+        </div>
     </div>
     <div>
         <?php echo_donations_text(); ?>
