@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.6.4
+Version: 0.6.5
 */
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
@@ -41,18 +41,18 @@ function block_order() {
 
 function is_pause_day() {
     $periodicity = get_option('periodicity') ?: 'daily';
-    $begin_date_period = get_option('begin_date_period') ?: '2000-01-01';
+    $begin_date = get_option('begin_date') ?: '2000-01-01';
     $today = date('Y-m-d');
 
     switch ($periodicity) {
         case 'daily':
             return true;
         case 'weekly':
-            $weekday_number_period = date('N', strtotime($begin_date_period));
+            $weekday_number_period = date('N', strtotime($begin_date));
             $weekday_number_today = date('N', strtotime($today));
             return $weekday_number_period == $weekday_number_today;
         case 'monthly':
-            $day_number_period = date('d', strtotime($begin_date_period));
+            $day_number_period = date('d', strtotime($begin_date));
             $day_number_today = date('d', strtotime($today));
             return $day_number_period == $day_number_today;
         default:
@@ -119,7 +119,7 @@ function echo_pause_unpause_button() {
     $begin_time = get_option('begin_time');
     $end_time = get_option('end_time');
     $periodicity = get_option('periodicity') ?: 'daily';
-    $begin_date_period = get_option('begin_date_period');
+    $begin_date = get_option('begin_date');
     $pause_on_demand_title = __('Pause on demand', 'pause-shop');
     $pause_state_title = __('State', 'pause-shop');
     $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
@@ -143,7 +143,7 @@ function echo_pause_unpause_button() {
         <input type="hidden" name="begin_time" value="<?php echo $begin_time; ?>">
         <input type="hidden" name="end_time" value="<?php echo $end_time; ?>">
         <input type="hidden" name="periodicity" value="<?php echo $periodicity; ?>">
-        <input type="hidden" name="begin_date_period" value="<?php echo $begin_date_period; ?>">
+        <input type="hidden" name="begin_date" value="<?php echo $begin_date; ?>">
             <?php submit_button(
                 $button_text, 'primary', 'submit', true,
                 array("style" => "font-size: 18px;")); ?>
@@ -163,7 +163,7 @@ function echo_scheduled_pause_controls() {
     $begin_time_title = __('Begin time', 'pause-shop');
     $end_time_title = __('End time', 'pause-shop');
     $periodicity_title = __('Periodicity', 'pause-shop');
-    $begin_date_period_title = __('Begin date', 'pause-shop');
+    $begin_date_title = __('Begin date', 'pause-shop');
 
     ?>
     <h3><?php echo __('Scheduled pause', 'pause-shop'); ?></h3>
@@ -224,10 +224,10 @@ function echo_scheduled_pause_controls() {
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $begin_date_period_title; ?></th>
+                    <th scope="row"><?php echo $begin_date_title; ?></th>
                     <td>
-                        <input type="date" name="begin_date_period" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('begin_date_period')); ?>" />
+                        <input type="date" name="begin_date" class="scheduled-pause-input"
+                        value="<?php echo esc_attr(get_option('begin_date')); ?>" />
                     </td>
                 </tr>
             </table>
@@ -261,22 +261,22 @@ function get_all_endpoints_info() {
             '<div>' . __('Input data example', 'pause-shop') . ': {"end_time": "01:30"}' . '</div>',
         "[GET] " . get_rest_url(null, 'pause_shop/v0/get_end_time') =>
             __('Get end time for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_periodicity') => 
+            '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"periodicity": "monthly"}' . '</div>',
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_periodicity') =>
+            __('Get periodicity for the scheduled pause.', 'pause-shop'),
+        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_date') => 
+            '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>' .
+            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_date": "2021-01-31"}' . '</div>',
+        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_date') =>
+            __('Get begin date for the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/enable_scheduled_pause') => 
             __('Enable the scheduled pause.', 'pause-shop'),
         "[POST] " . get_rest_url(null, 'pause_shop/v0/disable_scheduled_pause') =>
             __('Disable the scheduled pause.', 'pause-shop'),
         "[GET] " . get_rest_url(null, 'pause_shop/v0/is_scheduled_pause_enabled') =>
             __('Return the current scheduled pause status.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_periodicity') => 
-            '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"periodicity": "monthly"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_periodicity') =>
-            __('Get periodicity for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_date_period') => 
-            '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_date": "2021-01-31"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_date_period') =>
-            __('Get begin date for the scheduled pause.', 'pause-shop'),
     );
 
     return $endpoints;
@@ -376,7 +376,7 @@ function pause_shop_register_settings() {
     register_setting('pause-shop-settings-group', 'on_demand_paused');
     register_setting('pause-shop-settings-group', 'schedule_paused');
     register_setting('pause-shop-settings-group', 'scheduled_pause_enabled');
-    register_setting('pause-shop-settings-group', 'begin_date_period');
+    register_setting('pause-shop-settings-group', 'begin_date');
     register_setting('pause-shop-settings-group', 'periodicity');
 }
 add_action('admin_init', 'pause_shop_register_settings');
@@ -463,15 +463,15 @@ function _is_valid_date($date_str) {
     return $date->format('Y-m-d') === $date_str;
 }
 
-function set_begin_date_period() {
-    $begin_date_period = $_POST['begin_date'];
+function set_begin_date() {
+    $begin_date = $_POST['begin_date'];
 
-    if (!_is_valid_date($begin_date_period)) {
+    if (!_is_valid_date($begin_date)) {
         return array( 
             'success' => false, 'error' => 'Invalid date' );
     }
 
-    update_option( 'begin_date_period', $begin_date_period );
+    update_option( 'begin_date', $begin_date );
     return array( 'success' => true );
 }
 
@@ -610,18 +610,18 @@ function pause_shop_register_rest_routes() {
         },
     ) );
 
-    register_rest_route( 'pause_shop/v0', '/set_begin_date_period', array(
+    register_rest_route( 'pause_shop/v0', '/set_begin_date', array(
         'methods' => 'POST',
-        'callback' => 'set_begin_date_period',
+        'callback' => 'set_begin_date',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
     ) );
 
-    register_rest_route( 'pause_shop/v0', '/get_begin_date_period', array(
+    register_rest_route( 'pause_shop/v0', '/get_begin_date', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'begin_date_period' => get_option('begin_date_period') );
+            return array( 'begin_date' => get_option('begin_date') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
