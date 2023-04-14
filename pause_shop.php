@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.6.5
+Version: 0.6.6
 License: MIT
 */
 
@@ -320,8 +320,17 @@ function echo_help_text() {
         <?php echo $wp_app_passwds_text; ?>
     </p>
     <p>
-        <a href="<?php echo $source_code_link; ?>" target="_blank">
-            <?php echo $source_code_link_text;?>
+        <a style="display: flex; text-decoration: none; padding: 10px; background-color: #24292e; 
+                  color: #fff; font-size: 14px; font-weight: bold; border-radius: 5px; width: fit-content;" 
+         href="<?php echo $source_code_link; ?>" target="_blank">
+            <span class="github-icon">
+                <svg height="22" viewBox="0 0 16 16" width="32" aria-hidden="true">
+                    <path fill="#fff" d="M8 0a8 8 0 0 0-8 8 8 8 0 0 0 5.312 7.594c.38.07.52-.164.52-.367 0-.18-.007-.82-.012-1.605-2.12.454-2.563-.508-2.563-.508-.345-.88-.842-1.114-.842-1.114-.687-.47.052-.46.052-.46.76.053 1.16.783 1.16.783.677 1.16 1.777.823 2.213.63.068-.494.266-.823.485-1.012-1.7-.195-3.488-.85-3.488-3.787 0-.837.3-1.524.793-2.056-.08-.196-.343-.976.076-2.03 0 0 .645-.207 2.107.785A7.36 7.36 0 0 1 8 4.354c.64.004 1.286.086 1.887.255 1.462-.992 2.107-.785 2.107-.785.42 1.054.158 1.834.08 2.03.495.532.792 1.218.792 2.055 0 2.944-1.79 3.59-3.497 3.78.274.237.518.704.518 1.416 0 1.022-.01 1.845-.01 2.096 0 .203.137.438.524.365A8.008 8.008 0 0 0 16 8a8 8 0 0 0-8-8z"/>
+                </svg>
+            </span>
+            <span>
+                <?php echo $source_code_link_text;?>
+            </span>
         </a>
     </p>
     <?php    
