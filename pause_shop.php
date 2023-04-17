@@ -281,16 +281,50 @@ function get_all_endpoints_info() {
     return $endpoints;
 }
 
-function echo_endpoints() {
-    $endpoints = get_all_endpoints_info();
+// Include the WP_List_Table class
+if ( ! class_exists( 'WP_List_Table' ) ) {
+    require_once( ABSPATH . 'wp-admin/includes/class-wp-list-table.php' );
+}
 
-    foreach ($endpoints as $endpoint => $description) {
-        ?>
-        <tr>
-            <td><?php echo $endpoint; ?></td>
-            <td style="text-align: right;"><?php echo $description; ?></td>
-        </tr>
-        <?php
+// Define our custom WP_List_Table subclass
+class REST_Endpoints_Table extends WP_List_Table {
+
+    // Define the columns that we want to display in the table
+    function get_columns() {
+        $columns = array(
+            'endpoint' => __('Endpoint', 'pause-shop'),
+            'description' => __('Description', 'pause-shop'),
+        );
+        return $columns;
+    }
+
+    // Define the data that will be displayed in each column for each row of the table
+    function prepare_items() {
+        $data = array();
+        $endpoints = get_all_endpoints_info();
+
+        foreach ($endpoints as $endpoint => $description) {
+            $row = array(
+                'endpoint' => $endpoint,
+                'description' => $description,
+            );
+
+            $data[] = $row;
+        }
+
+        $this->_column_headers = array( $this->get_columns(), array(), array(), 'endpoint' );
+        $this->items = $data;
+    }
+
+    // Define what is displayed in each column
+    function column_default( $item, $column_name ) {
+        switch ( $column_name ) {
+            case 'endpoint':
+            case 'description':
+                return $item[ $column_name ];
+            default:
+                return print_r( $item, true );
+        }
     }
 }
 
@@ -310,12 +344,14 @@ function echo_help_text() {
     <h3>
         <?php echo $help_title; ?>
     </h3>
-    <table>
-        <tr>
-            <th><?php _e('Endpoint', 'pause-shop'); ?></th>
-            <th><?php _e('Description', 'pause-shop'); ?></th>
-        </tr>
-        <?php echo_endpoints(); ?>
+    <?php
+        // Create a new instance of our custom WP_List_Table subclass
+        $table = new REST_Endpoints_Table();
+
+        // Output the table on the admin page
+        $table->prepare_items();
+        $table->display();
+    ?>
     <p>
         <?php echo $wp_app_passwds_text; ?>
     </p>
@@ -343,6 +379,7 @@ function echo_donations_text() {
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
     $ko_fi_btn_image_alt = esc_attr__('Buy Me a Coffee at ko-fi.com');
     
+    // TODO: use same style as the GitHub button
     if ($show_donations): ?>
         <h3><?php echo $donations_title ?></h3>
         <p><?php echo $ko_fi_msg; ?></p>
