@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.6.6
+Version: 0.7.0
 License: MIT
 */
 
@@ -16,9 +16,7 @@ function add_to_cart_disabled_msg() {
                    'pause-shop' );
 
     ?>
-	<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); 
-     color: white; font-weight: bold; border-radius: 16px; 
-     text-align: center; padding: 4px 16px; margin: 8px 0;">
+	<div class="pause-msg-at-product">
         <?php echo $loc_msg; ?>
     </div>
     <?php   
@@ -27,9 +25,7 @@ function add_to_cart_disabled_msg() {
 function filter_order_button_html() {
     $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
                    'pause-shop' );
-    $html = sprintf('<div style="background-color: var(--wp--preset--color--luminous-vivid-amber); 
-                  color: white; font-weight: bold; border-radius: 16px; text-align: center; 
-                  padding: 4px 16px; margin-bottom: 16px;">%s</div>', $loc_msg);
+    $html = sprintf('<div class="pause-msg-at-order">%s</div>', $loc_msg);
 
     return $html;
 }
@@ -130,7 +126,7 @@ function echo_pause_unpause_button() {
     <p>
         <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
     </p>
-    <form method="post" action="options.php">
+    <form method="post" action="options.php" class="pause-on-demand-form">
         <?php settings_fields('pause-shop-settings-group'); ?>
         <?php do_settings_sections('pause-shop-settings-group'); ?>
         <input type="hidden" name="on_demand_paused" class="button button-primary" 
@@ -144,8 +140,7 @@ function echo_pause_unpause_button() {
         <input type="hidden" name="periodicity" value="<?php echo $periodicity; ?>">
         <input type="hidden" name="begin_date" value="<?php echo $begin_date; ?>">
             <?php submit_button(
-                $button_text, 'primary', 'submit', true,
-                array("style" => "font-size: 18px;")); ?>
+                $button_text, 'primary', 'submit', true, array()); ?>
     </form>
     <?php
 }
@@ -237,44 +232,39 @@ function echo_scheduled_pause_controls() {
 
 function get_all_endpoints_info() {
     $endpoints = array(
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/pause_shop') => 
+        "POST /wp-json/pause-shop/v0/pause_shop" => 
             __('Disable the add-to-cart and checkout buttons, and show a notice.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/unpause_shop') =>
+        "POST /wp-json/pause-shop/v0/unpause_shop" =>
             __('Enable the add-to-cart and checkout buttons, and hide the notice.', 'pause-shop'),
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/is_on_demand_paused') =>
+        "GET /wp-json/pause-shop/v0/is_on_demand_paused" =>
             __('Return the current on-demand pause status.', 'pause-shop'),
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/is_schedule_paused') =>
+        "GET /wp-json/pause-shop/v0/is_scheduled_paused" =>
             __('Return the current scheduled pause status.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_timezone') =>
-            '<div>' . __('Set timezone for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"timezone": "Europe/Paris"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_timezone') =>
+        "POST /wp-json/pause-shop/v0/set_timezone -d {\"timezone\": \"Europe/London\"}" =>
+            '<div>' . __('Set timezone for the scheduled pause.', 'pause-shop') . '</div>',
+        "GET /wp-json/pause-shop/v0/get_timezone" =>
             __('Get timezone for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_time') =>
-            '<div>' . __('Set begin time for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_time": "01:00"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_time') =>
+        "POST /wp-json/pause-shop/v0/set_begin_time -d {\"begin_time\": \"01:00\"}" =>
+            '<div>' . __('Set begin time for the scheduled pause.', 'pause-shop') . '</div>',
+        "GET /wp-json/pause-shop/v0/get_begin_time" =>
             __('Get begin time for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_end_time') =>
-            '<div>' . __('Set end time for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"end_time": "01:30"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_end_time') =>
+        "POST /wp-json/pause-shop/v0/set_end_time -d {\"end_time\": \"01:30\"}" =>
+            '<div>' . __('Set end time for the scheduled pause.', 'pause-shop') . '</div>',
+        "GET /wp-json/pause-shop/v0/get_end_time" =>
             __('Get end time for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_periodicity') => 
-            '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"periodicity": "monthly"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_periodicity') =>
+        "POST /wp-json/pause-shop/v0/set_periodicity -d {\"periodicity\": \"monthly\"}" => 
+            '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>',
+        "GET /wp-json/pause-shop/v0/get_periodicity" =>
             __('Get periodicity for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/set_begin_date') => 
-            '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>' .
-            '<div>' . __('Input data example', 'pause-shop') . ': {"begin_date": "2021-01-31"}' . '</div>',
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/get_begin_date') =>
+        "POST /wp-json/pause-shop/v0/set_begin_date -d {\"begin_date\": \"2020-01-01\"}" => 
+            '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>',
+        "GET /wp-json/pause-shop/v0/get_begin_date" =>
             __('Get begin date for the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/enable_scheduled_pause') => 
+        "POST /wp-json/pause-shop/v0/enable_scheduled_pause" => 
             __('Enable the scheduled pause.', 'pause-shop'),
-        "[POST] " . get_rest_url(null, 'pause_shop/v0/disable_scheduled_pause') =>
+        "POST /wp-json/pause-shop/v0/disable_scheduled_pause" =>
             __('Disable the scheduled pause.', 'pause-shop'),
-        "[GET] " . get_rest_url(null, 'pause_shop/v0/is_scheduled_pause_enabled') =>
+        "GET /wp-json/pause-shop/v0/is_scheduled_pause_enabled" =>
             __('Return the current scheduled pause status.', 'pause-shop'),
     );
 
@@ -355,9 +345,8 @@ function echo_help_text() {
     <p>
         <?php echo $wp_app_passwds_text; ?>
     </p>
-    <p>
-        <a style="display: flex; text-decoration: none; padding: 10px; background-color: #24292e; 
-                  color: #fff; font-size: 14px; font-weight: bold; border-radius: 5px; width: fit-content;" 
+    <div class="pause-shop-source-link">
+        <a class="pause-shop-source-button" 
          href="<?php echo $source_code_link; ?>" target="_blank">
             <span class="github-icon">
                 <svg height="22" viewBox="0 0 16 16" width="32" aria-hidden="true">
@@ -368,7 +357,7 @@ function echo_help_text() {
                 <?php echo $source_code_link_text;?>
             </span>
         </a>
-    </p>
+    </div>
     <?php    
 }
 
@@ -379,12 +368,15 @@ function echo_donations_text() {
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
     $ko_fi_btn_image_alt = esc_attr__('Buy Me a Coffee at ko-fi.com');
     
-    // TODO: use same style as the GitHub button
     if ($show_donations): ?>
-        <h3><?php echo $donations_title ?></h3>
-        <p><?php echo $ko_fi_msg; ?></p>
+        <h3>
+            <?php echo $donations_title ?>
+        </h3>
+        <p>
+            <?php echo $ko_fi_msg; ?>
+        </p>
         <a href="<?php echo $ko_fi_link; ?>" target="_blank">
-            <img height="36" style="border:0px;height:36px;" 
+            <img class="pause-shop-donations-button" 
             src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
             alt="<?php echo $ko_fi_btn_image_alt; ?>" />
         </a>
@@ -396,17 +388,17 @@ function pause_shop_settings_page() {
     ?>
     <div class="wrap">
         <h2><?php echo $settings_page_title; ?></h2>
-        <div>
+        <div class="pause-shop-odd-section">
             <?php echo_pause_unpause_button(); ?>
         </div>
         <div>
             <?php echo_scheduled_pause_controls(); ?>
         </div>
     </div>
-    <div>
+    <div class="pause-shop-odd-section">
         <?php echo_donations_text(); ?>
     </div>
-    <div>
+    <div class="pause-shop-help">
         <?php echo_help_text(); ?>
     </div>
     <?php
@@ -675,3 +667,11 @@ function pause_shop_register_rest_routes() {
 }
 
 add_action('rest_api_init', 'pause_shop_register_rest_routes');
+
+/* CSS */
+
+function pause_shop_enqueue_styles() {
+    wp_enqueue_style( 'pause-shop-style', plugins_url( 'pause-shop.css', __FILE__ ) );
+}
+
+add_action( 'init', 'pause_shop_enqueue_styles' );

@@ -1,0 +1,84 @@
+h3 {
+    font-size: 1.2rem;
+}
+
+#wpbody p {
+    font-size: 1rem;
+}
+
+.pause-on-demand-form input#submit {
+    font-size: 1rem;
+}
+
+.tablenav.top {
+    display: none;
+}
+
+.tablenav.bottom {
+    display: none;
+}
+
+.pause-shop-help {
+    margin-top: 4rem;
+}
+
+.pause-msg-at-product {
+    background-color: var(--wp--preset--color--luminous-vivid-amber); 
+     color: white; 
+     font-weight: bold; 
+     border-radius: 16px; 
+     text-align: center; 
+     padding: 4px 16px; 
+     margin: 8px 0;
+}
+
+.pause-msg-at-order {
+    background-color: var(--wp--preset--color--luminous-vivid-amber); 
+    color: white; 
+    font-weight: bold; 
+    border-radius: 16px; 
+    text-align: center; 
+    padding: 4px 16px; 
+    margin-bottom: 16px;
+}
+
+.pause-shop-odd-section {
+    background-color: var(--wc-highligh-text);
+    padding: 0.1rem 1rem 1rem;
+    border-radius: 1rem;
+    margin-right: 1rem;
+}
+
+th.manage-column {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.wp-list-table .column-endpoint.endpoint {
+    font-family: monospace;
+}
+
+.wp-list-table .column-description.description {
+    font-size: 0.85rem;
+}
+
+.pause-shop-source-link {
+    margin-top: 4rem;
+}
+
+.pause-shop-source-button {
+    display: flex; 
+    text-decoration: none; 
+    padding: 10px; 
+    background-color: #24292e; 
+    color: #fff; 
+    font-size: 14px; 
+    font-weight: bold; 
+    border-radius: 5px; 
+    width: fit-content;
+}
+
+.pause-shop-donations-button {
+    border: 0px;
+    height: 36px;
+}
