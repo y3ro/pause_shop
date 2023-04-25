@@ -369,17 +369,19 @@ function echo_donations_text() {
     $ko_fi_btn_image_alt = esc_attr__('Buy Me a Coffee at ko-fi.com');
     
     if ($show_donations): ?>
-        <h3>
-            <?php echo $donations_title ?>
-        </h3>
-        <p>
-            <?php echo $ko_fi_msg; ?>
-        </p>
-        <a href="<?php echo $ko_fi_link; ?>" target="_blank">
-            <img class="pause-shop-donations-button" 
-            src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-            alt="<?php echo $ko_fi_btn_image_alt; ?>" />
-        </a>
+        <div class="pause-shop-odd-section">
+            <h3>
+                <?php echo $donations_title ?>
+            </h3>
+            <p>
+                <?php echo $ko_fi_msg; ?>
+            </p>
+            <a href="<?php echo $ko_fi_link; ?>" target="_blank">
+                <img class="pause-shop-donations-button" 
+                src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
+                alt="<?php echo $ko_fi_btn_image_alt; ?>" />
+            </a>
+        </div>
     <?php endif;
 }
 
@@ -395,9 +397,7 @@ function pause_shop_settings_page() {
             <?php echo_scheduled_pause_controls(); ?>
         </div>
     </div>
-    <div class="pause-shop-odd-section">
-        <?php echo_donations_text(); ?>
-    </div>
+    <?php echo_donations_text(); ?>
     <div class="pause-shop-help">
         <?php echo_help_text(); ?>
     </div>
@@ -444,7 +444,7 @@ function set_timezone() {
 }
 
 function _is_valid_time($time_str) {
-    return preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $time_str); // TODO: test (and endpoints)
+    return preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $time_str);
 }
 
 function set_begin_time() {
@@ -675,3 +675,5 @@ function pause_shop_enqueue_styles() {
 }
 
 add_action( 'init', 'pause_shop_enqueue_styles' );
+
+/* TODO: JS */
