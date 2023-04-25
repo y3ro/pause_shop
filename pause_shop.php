@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.7.0
+Version: 0.8.0
 License: MIT
 */
 
@@ -676,5 +676,3 @@ function pause_shop_enqueue_styles() {
 }
 
 add_action( 'init', 'pause_shop_enqueue_styles' );
-
-/* TODO: JS */
