@@ -487,7 +487,8 @@ function set_periodicity() {
 
     if (!in_array($periodicity, $periodicities)) {
         return array( 
-            'success' => false, 'error' => 'Invalid periodicity' );
+            'success' => false, 'error' => 'Invalid periodicity',
+            'periodicity' => $periodicity );
     }
 
     update_option( 'periodicity', $periodicity );
