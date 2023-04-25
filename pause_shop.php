@@ -240,23 +240,23 @@ function get_all_endpoints_info() {
             __('Return the current on-demand pause status.', 'pause-shop'),
         "GET /wp-json/pause-shop/v0/is_scheduled_paused" =>
             __('Return the current scheduled pause status.', 'pause-shop'),
-        "POST /wp-json/pause-shop/v0/set_timezone -d {\"timezone\": \"Europe/London\"}" =>
+        "POST /wp-json/pause-shop/v0/set_timezone -F \"timezone=Europe/London\"" =>
             '<div>' . __('Set timezone for the scheduled pause.', 'pause-shop') . '</div>',
         "GET /wp-json/pause-shop/v0/get_timezone" =>
             __('Get timezone for the scheduled pause.', 'pause-shop'),
-        "POST /wp-json/pause-shop/v0/set_begin_time -d {\"begin_time\": \"01:00\"}" =>
+        "POST /wp-json/pause-shop/v0/set_begin_time -F \"begin_time=01:00\"" =>
             '<div>' . __('Set begin time for the scheduled pause.', 'pause-shop') . '</div>',
         "GET /wp-json/pause-shop/v0/get_begin_time" =>
             __('Get begin time for the scheduled pause.', 'pause-shop'),
-        "POST /wp-json/pause-shop/v0/set_end_time -d {\"end_time\": \"01:30\"}" =>
+        "POST /wp-json/pause-shop/v0/set_end_time -F \"end_time=01:30\"" =>
             '<div>' . __('Set end time for the scheduled pause.', 'pause-shop') . '</div>',
         "GET /wp-json/pause-shop/v0/get_end_time" =>
             __('Get end time for the scheduled pause.', 'pause-shop'),
-        "POST /wp-json/pause-shop/v0/set_periodicity -d {\"periodicity\": \"monthly\"}" => 
+        "POST /wp-json/pause-shop/v0/set_periodicity -F \"periodicity=monthly\"" => 
             '<div>' . __('Set periodicity for the scheduled pause.', 'pause-shop') . '</div>',
         "GET /wp-json/pause-shop/v0/get_periodicity" =>
             __('Get periodicity for the scheduled pause.', 'pause-shop'),
-        "POST /wp-json/pause-shop/v0/set_begin_date -d {\"begin_date\": \"2020-01-01\"}" => 
+        "POST /wp-json/pause-shop/v0/set_begin_date -F \"begin_date=2020-01-01\"" => 
             '<div>' . __('Set begin date for the scheduled pause.', 'pause-shop') . '</div>',
         "GET /wp-json/pause-shop/v0/get_begin_date" =>
             __('Get begin date for the scheduled pause.', 'pause-shop'),
