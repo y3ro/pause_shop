@@ -388,18 +388,20 @@ function echo_donations_text() {
 function pause_shop_settings_page() {
     $settings_page_title = __('Pause shop Settings', 'pause-shop');
     ?>
-    <div class="wrap">
-        <h2><?php echo $settings_page_title; ?></h2>
-        <div class="pause-shop-odd-section">
-            <?php echo_pause_unpause_button(); ?>
+    <div id="pause-shop-settings">
+        <div class="wrap">
+            <h2><?php echo $settings_page_title; ?></h2>
+            <div class="pause-shop-odd-section">
+                <?php echo_pause_unpause_button(); ?>
+            </div>
+            <div>
+                <?php echo_scheduled_pause_controls(); ?>
+            </div>
         </div>
-        <div>
-            <?php echo_scheduled_pause_controls(); ?>
+        <?php echo_donations_text(); ?>
+        <div class="pause-shop-help">
+            <?php echo_help_text(); ?>
         </div>
-    </div>
-    <?php echo_donations_text(); ?>
-    <div class="pause-shop-help">
-        <?php echo_help_text(); ?>
     </div>
     <?php
 }

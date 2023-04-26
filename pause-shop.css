@@ -1,8 +1,8 @@
-h3 {
+#pause-shop-settings h3 {
     font-size: 1.2rem;
 }
 
-#wpbody p {
+#pause-shop-settings p {
     font-size: 1rem;
 }
 
@@ -10,11 +10,11 @@ h3 {
     font-size: 1rem;
 }
 
-.tablenav.top {
+#pause-shop-settings .tablenav.top {
     display: none;
 }
 
-.tablenav.bottom {
+#pause-shop-settings .tablenav.bottom {
     display: none;
 }
 
@@ -24,12 +24,12 @@ h3 {
 
 .pause-msg-at-product {
     background-color: var(--wp--preset--color--luminous-vivid-amber); 
-     color: white; 
-     font-weight: bold; 
-     border-radius: 16px; 
-     text-align: center; 
-     padding: 4px 16px; 
-     margin: 8px 0;
+    color: white; 
+    font-weight: bold; 
+    border-radius: 16px; 
+    text-align: center; 
+    padding: 4px 16px; 
+    margin: 8px 0;
 }
 
 .pause-msg-at-order {
@@ -49,16 +49,16 @@ h3 {
     margin-right: 1rem;
 }
 
-th.manage-column {
+#pause-shop-settings th.manage-column {
     font-size: 1rem;
     font-weight: bold;
 }
 
-.wp-list-table .column-endpoint.endpoint {
+#pause-shop-settings .wp-list-table .column-endpoint.endpoint {
     font-family: monospace;
 }
 
-.wp-list-table .column-description.description {
+#pause-shop-settings .wp-list-table .column-description.description {
     font-size: 0.85rem;
 }
 
