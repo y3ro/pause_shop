@@ -675,4 +675,4 @@ function pause_shop_enqueue_styles() {
     wp_enqueue_style( 'pause-shop-style', plugins_url( 'pause-shop.css', __FILE__ ) );
 }
 
-add_action( 'init', 'pause_shop_enqueue_styles' );
+add_action( 'admin_enqueue_scripts', 'pause_shop_enqueue_styles' );
