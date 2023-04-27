@@ -1,10 +1,16 @@
-# Pause shop for Woocommerce
+=== Pause shop ===
+Contributors: y3ro
+Tags: pause shop, stop shop, woocommerce, shop maintenance, disable orders, programmable maintenance mode, read-only mode, remotely configurable, rest endpoints
+Requires at least: 5.6
+Tested up to: 6.2
+Stable tag: 0.8.2
+License: MIT
 
 This is a Wordpress plugin that allows you to pause your Woocommerce shop for a period of time.
 
 When paused, your customers will still be able to browse your shop, but they will not be able to add new products to their carts or place orders.
 
-## Usage
+== Usage ==
 
 You can pause your shop using the settings in the plugin's settings page or by using the REST endpoints provided by the plugin, which are documented in the same settings page and also in the following section.
 
@@ -12,7 +18,7 @@ There are two types of pause you can use:
 1. Scheduled pause: This is a periodic pause that will start and end at specific times. You can set this pause to repeat on a daily, weekly or monthly basis, and also set the starting date.
 2. On-demand pause: This is a pause that you can start and end at any time by clicking on the button in the settings page or by using the corresponding REST endpoints.
 
-### REST endpoints
+= REST endpoints =
 
 The plugin provides the following REST endpoints:
 * Pause the shop on-demand.
@@ -84,11 +90,11 @@ POST /wp-json/pause-shop/v0/disable_scheduled_pause
 GET /wp-json/pause-shop/v0/is_scheduled_pause_enabled
 ```
 
-## License
+== License ==
 
 This plugin is licensed under the MIT License. See the LICENSE file for more details.
 
-## Donations
+== Donations ==
 
 If you like this plugin and want to support its development, you can buy me a coffee at [Ko-fi](https://ko-fi.com/y3ro752694).
 
