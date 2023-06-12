@@ -456,7 +456,7 @@ function set_begin_time() {
 
     if (!_is_valid_time($begin_time)) {
         return array( 
-            'success' => false, 'error' => 'Invalid date' );
+            'success' => false, 'error' => 'Invalid begin time' );
     }
 
     update_option( 'begin_time', $begin_time );
@@ -468,7 +468,7 @@ function set_end_time () {
 
     if (!_is_valid_time($end_time)) {
         return array( 
-            'success' => false, 'error' => 'Invalid date' );
+            'success' => false, 'error' => 'Invalid end time' );
     }
 
     update_option( 'end_time', $end_time );
@@ -510,7 +510,7 @@ function set_begin_date() {
 
     if (!_is_valid_date($begin_date)) {
         return array( 
-            'success' => false, 'error' => 'Invalid date' );
+            'success' => false, 'error' => 'Invalid begin date' );
     }
 
     update_option( 'begin_date', $begin_date );
