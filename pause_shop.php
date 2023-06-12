@@ -9,6 +9,8 @@ Version: 0.8.2
 License: MIT
 */
 
+if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
 function add_to_cart_disabled_msg() {
