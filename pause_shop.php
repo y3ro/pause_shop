@@ -19,7 +19,7 @@ function add_to_cart_disabled_msg() {
 
     ?>
 	<div class="pause-msg-at-product">
-        <?php echo $loc_msg; ?>
+        <?php echo esc_html($loc_msg); ?>
     </div>
     <?php   
 }
@@ -124,9 +124,9 @@ function echo_pause_unpause_button() {
     $unpause_text = __('Unpause shop', 'pause-shop');
     $button_text = $pause ? $unpause_text : $pause_text;
     ?>
-    <h3><?php echo $pause_on_demand_title; ?></h3>
+    <h3><?php echo esc_html($pause_on_demand_title); ?></h3>
     <p>
-        <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
+        <?php echo esc_html($pause_state_title); ?>: <?php echo esc_html($pause_state); ?>
     </p>
     <form method="post" action="options.php" class="pause-on-demand-form">
         <?php settings_fields('pause-shop-settings-group'); ?>
@@ -134,13 +134,13 @@ function echo_pause_unpause_button() {
         <input type="hidden" name="on_demand_paused" class="button button-primary" 
             value="<?php echo esc_attr(!$pause); ?>">
         <input type="hidden" name="scheduled_pause_enabled" 
-        value="<?php echo $scheduled_pause_enabled; ?>">
-        <input type="hidden" name="schedule_paused" value="<?php echo $schedule_paused; ?>">
-        <input type="hidden" name="timezone" value="<?php echo $timezone; ?>">
-        <input type="hidden" name="begin_time" value="<?php echo $begin_time; ?>">
-        <input type="hidden" name="end_time" value="<?php echo $end_time; ?>">
-        <input type="hidden" name="periodicity" value="<?php echo $periodicity; ?>">
-        <input type="hidden" name="begin_date" value="<?php echo $begin_date; ?>">
+        value="<?php echo esc_attr($scheduled_pause_enabled); ?>">
+        <input type="hidden" name="schedule_paused" value="<?php echo esc_attr($schedule_paused); ?>">
+        <input type="hidden" name="timezone" value="<?php echo esc_attr($timezone); ?>">
+        <input type="hidden" name="begin_time" value="<?php echo esc_attr($begin_time); ?>">
+        <input type="hidden" name="end_time" value="<?php echo esc_attr($end_time); ?>">
+        <input type="hidden" name="periodicity" value="<?php echo esc_attr($periodicity); ?>">
+        <input type="hidden" name="begin_date" value="<?php echo esc_attr($begin_date); ?>">
             <?php submit_button(
                 $button_text, 'primary', 'submit', true, array()); ?>
     </form>
@@ -162,65 +162,68 @@ function echo_scheduled_pause_controls() {
     $begin_date_title = __('Begin date', 'pause-shop');
 
     ?>
-    <h3><?php echo __('Scheduled pause', 'pause-shop'); ?></h3>
+    <h3><?php echo esc_html__('Scheduled pause', 'pause-shop'); ?></h3>
         <p>
-            <?php echo $pause_state_title; ?>: <?php echo $pause_state; ?>
+            <?php echo esc_html($pause_state_title); ?>: <?php echo esc_html($pause_state); ?>
         </p>
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>
-            <input type="hidden" name="on_demand_paused" value="<?php echo $on_demand_paused; ?>">
+            <input type="hidden" name="on_demand_paused" value="<?php echo esc_attr($on_demand_paused); ?>">
             <table class="form-table">
                 <tr valign="top">
                     <input id="scheduled-pause-enabled" type="checkbox" name="scheduled_pause_enabled" 
-                    <?php echo $scheduled_pause_enabled_checked_str; ?>>
-                    <label for="scheduled_pause_enabled"><?php echo $scheduled_pause_enabled_title; ?></label>
+                    <?php echo esc_attr($scheduled_pause_enabled_checked_str); ?>>
+                    <label for="scheduled_pause_enabled"><?php echo esc_html($scheduled_pause_enabled_title); ?></label>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $timezone_title; ?></th>
+                    <th scope="row"><?php echo esc_html($timezone_title); ?></th>
                     <td>
                         <select name="timezone" class="scheduled-pause-input">
                         <?php
                             $timezones = DateTimeZone::listIdentifiers();
                             foreach($timezones as $timezone) {
                                 $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
-                                echo "<option value=\"$timezone\" $selected_str>$timezone</option>";
+                                $timezone_option = "<option value=\"" . esc_attr($timezone) . 
+                                    "\" $selected_str>$timezone</option>";
+                                echo esc_html($timezone_option);
                             }
                         ?>
                         </select>
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $begin_time_title; ?></th>
+                    <th scope="row"><?php echo esc_html($begin_time_title); ?></th>
                     <td>
                         <input type="time" name="begin_time" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $end_time_title; ?></th>
+                    <th scope="row"><?php echo esc_html($end_time_title); ?></th>
                     <td>
                         <input type="time" name="end_time" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('end_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $periodicity_title; ?></th>
+                    <th scope="row"><?php echo esc_html($periodicity_title); ?></th>
                     <td>
                         <select name="periodicity" class="scheduled-pause-input">
                         <?php
                             $periodicities = array('daily', 'weekly', 'monthly');
                             foreach($periodicities as $periodicity) {
                                 $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
-                                echo "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
+                                $periodicity_option = "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
                                     __($periodicity, 'pause-shop') . "</option>";
+                                echo esc_html($periodicity_option);
                             }
                         ?>
                         </select>
                     </td>
                 </tr>
                 <tr valign="top">
-                    <th scope="row"><?php echo $begin_date_title; ?></th>
+                    <th scope="row"><?php echo esc_html($begin_date_title); ?></th>
                     <td>
                         <input type="date" name="begin_date" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('begin_date')); ?>" />
@@ -334,7 +337,7 @@ function echo_help_text() {
     
     ?>
     <h3>
-        <?php echo $help_title; ?>
+        <?php echo esc_html($help_title); ?>
     </h3>
     <?php
         // Create a new instance of our custom WP_List_Table subclass
@@ -345,18 +348,18 @@ function echo_help_text() {
         $table->display();
     ?>
     <p>
-        <?php echo $wp_app_passwds_text; ?>
+        <?php echo esc_html($wp_app_passwds_text); ?>
     </p>
     <div class="pause-shop-source-link">
         <a class="pause-shop-source-button" 
-         href="<?php echo $source_code_link; ?>" target="_blank">
+         href="<?php echo esc_url($source_code_link); ?>" target="_blank">
             <span class="github-icon">
                 <svg height="22" viewBox="0 0 16 16" width="32" aria-hidden="true">
                     <path fill="#fff" d="M8 0a8 8 0 0 0-8 8 8 8 0 0 0 5.312 7.594c.38.07.52-.164.52-.367 0-.18-.007-.82-.012-1.605-2.12.454-2.563-.508-2.563-.508-.345-.88-.842-1.114-.842-1.114-.687-.47.052-.46.052-.46.76.053 1.16.783 1.16.783.677 1.16 1.777.823 2.213.63.068-.494.266-.823.485-1.012-1.7-.195-3.488-.85-3.488-3.787 0-.837.3-1.524.793-2.056-.08-.196-.343-.976.076-2.03 0 0 .645-.207 2.107.785A7.36 7.36 0 0 1 8 4.354c.64.004 1.286.086 1.887.255 1.462-.992 2.107-.785 2.107-.785.42 1.054.158 1.834.08 2.03.495.532.792 1.218.792 2.055 0 2.944-1.79 3.59-3.497 3.78.274.237.518.704.518 1.416 0 1.022-.01 1.845-.01 2.096 0 .203.137.438.524.365A8.008 8.008 0 0 0 16 8a8 8 0 0 0-8-8z"/>
                 </svg>
             </span>
             <span>
-                <?php echo $source_code_link_text;?>
+                <?php echo esc_html($source_code_link_text);?>
             </span>
         </a>
     </div>
@@ -368,20 +371,20 @@ function echo_donations_text() {
     $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
-    $ko_fi_btn_image_alt = esc_attr__('Buy Me a Coffee at ko-fi.com');
+    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com');
     
     if ($show_donations): ?>
         <div class="pause-shop-odd-section">
             <h3>
-                <?php echo $donations_title ?>
+                <?php echo esc_html($donations_title) ?>
             </h3>
             <p>
-                <?php echo $ko_fi_msg; ?>
+                <?php echo esc_html($ko_fi_msg); ?>
             </p>
-            <a href="<?php echo $ko_fi_link; ?>" target="_blank">
+            <a href="<?php echo esc_url($ko_fi_link); ?>" target="_blank">
                 <img class="pause-shop-donations-button" 
                 src="https://cdn.ko-fi.com/cdn/kofi1.png?v=2" 
-                alt="<?php echo $ko_fi_btn_image_alt; ?>" />
+                alt="<?php echo esc_attr($ko_fi_btn_image_alt); ?>" />
             </a>
         </div>
     <?php endif;
@@ -392,7 +395,7 @@ function pause_shop_settings_page() {
     ?>
     <div id="pause-shop-settings">
         <div class="wrap">
-            <h2><?php echo $settings_page_title; ?></h2>
+            <h2><?php echo esc_html($settings_page_title); ?></h2>
             <div class="pause-shop-odd-section">
                 <?php echo_pause_unpause_button(); ?>
             </div>
