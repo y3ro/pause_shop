@@ -60,20 +60,17 @@ function is_pause_day() {
 }
 
 function is_scheduled_paused() {
-    $timezone = date_default_timezone_get();
-    date_default_timezone_set(get_option('timezone'));
-
+    $timezone = new DateTimeZone(get_option('timezone') ?: 'UTC');
     $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
 
     $begin_time = get_option('begin_time');
     $end_time = get_option('end_time');
-    $time = date('H:i:s');
+    $date = new DateTime('now', $timezone);
+    $time = $date->format('H:i:s');
 
     $is_scheduled_paused = $scheduled_pause_enabled &&
         is_pause_day() &&    
         $time <= $end_time && $time >= $begin_time;
-
-    date_default_timezone_set($timezone);
 
     return $is_scheduled_paused;
 }
