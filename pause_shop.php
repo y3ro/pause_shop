@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 load_plugin_textdomain( 'pause-shop', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 
-function add_to_cart_disabled_msg() {
+function pause_shop_add_to_cart_disabled_msg() {
     $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
                    'pause-shop' );
 
@@ -24,7 +24,7 @@ function add_to_cart_disabled_msg() {
     <?php   
 }
 
-function filter_order_button_html() {
+function pause_shop_filter_order_button_html() {
     $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
                    'pause-shop' );
     $html = sprintf('<div class="pause-msg-at-order">%s</div>', $loc_msg);
@@ -32,13 +32,13 @@ function filter_order_button_html() {
     return $html;
 }
 
-function block_order() {
+function pause_shop_block_order() {
     $loc_msg = __( 'The purchase function has been disabled while we are performing maintenance on the site. We will be back shortly.', 
                    'pause-shop' );
     wp_die($loc_msg);  // TODO: what is the right format?
 }
 
-function is_pause_day() {
+function pause_shop_is_pause_day() {
     $periodicity = get_option('periodicity') ?: 'daily';
     $begin_date = get_option('begin_date') ?: '2000-01-01';
     $today = date('Y-m-d');
@@ -59,7 +59,7 @@ function is_pause_day() {
     }
 }
 
-function is_scheduled_paused() {
+function pause_shop_is_scheduled_paused() {
     $timezone = new DateTimeZone(get_option('timezone') ?: 'UTC');
     $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
 
@@ -69,29 +69,29 @@ function is_scheduled_paused() {
     $time = $date->format('H:i:s');
 
     $is_scheduled_paused = $scheduled_pause_enabled &&
-        is_pause_day() &&    
+        pause_shop_is_pause_day() &&    
         $time <= $end_time && $time >= $begin_time;
 
     return $is_scheduled_paused;
 }
 
-function pause_shop() {
+function pause_shop_pause_shop() {
     $on_demand_paused = get_option('on_demand_paused') ?: false;
-    $schedule_paused = is_scheduled_paused();
+    $schedule_paused = pause_shop_is_scheduled_paused();
 
     if ($on_demand_paused || $schedule_paused) {
 		add_filter('woocommerce_is_purchasable', '__return_false');
-		add_action('woocommerce_single_product_summary', 'add_to_cart_disabled_msg');
-		add_filter('woocommerce_order_button_html', 'filter_order_button_html', 10, 2);
-        add_action('woocommerce_before_checkout_process', 'block_order');
+		add_action('woocommerce_single_product_summary', 'pause_shop_add_to_cart_disabled_msg');
+		add_filter('woocommerce_order_button_html', 'pause_shop_filter_order_button_html', 10, 2);
+        add_action('woocommerce_before_checkout_process', 'pause_shop_block_order');
     }
 }
 
-add_action('wp', 'pause_shop');
+add_action('wp', 'pause_shop_pause_shop');
 
 /* Admin menu entry */
 
-function pause_shop_menu() {
+function pause_shop_pause_shop_menu() {
     add_menu_page(
         'Pause shop Settings',
         'Pause shop',
@@ -101,14 +101,14 @@ function pause_shop_menu() {
         'dashicons-controls-pause',
     );
 }
-add_action('admin_menu', 'pause_shop_menu');
+add_action('admin_menu', 'pause_shop_pause_shop_menu');
 
 /* Admin settings page */
 
-function echo_pause_unpause_button() {
+function pause_shop_echo_pause_unpause_button() {
     $pause = get_option('on_demand_paused') ?: false;
     $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
-    $schedule_paused = is_scheduled_paused();
+    $schedule_paused = pause_shop_is_scheduled_paused();
     $timezone = get_option('timezone') ?: 'UTC';
     $begin_time = get_option('begin_time');
     $end_time = get_option('end_time');
@@ -144,9 +144,9 @@ function echo_pause_unpause_button() {
     <?php
 }
 
-function echo_scheduled_pause_controls() {
+function pause_shop_echo_scheduled_pause_controls() {
     $scheduled_pause_enabled_title = __('Enable scheduled pause', 'pause-shop');
-    $pause = is_scheduled_paused();
+    $pause = pause_shop_is_scheduled_paused();
     $on_demand_paused = get_option('on_demand_paused') ?: false;
     $pause_state_title = __('State', 'pause-shop');
     $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
@@ -232,7 +232,7 @@ function echo_scheduled_pause_controls() {
         <?php
 }
 
-function get_all_endpoints_info() {
+function pause_shop_get_all_endpoints_info() {
     $endpoints = array(
         "POST /wp-json/pause-shop/v0/pause_shop" => 
             __('Disable the add-to-cart and checkout buttons, and show a notice.', 'pause-shop'),
@@ -279,7 +279,7 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 }
 
 // Define our custom WP_List_Table subclass
-class REST_Endpoints_Table extends WP_List_Table {
+class Pause_Shop_REST_Endpoints_Table extends WP_List_Table {
 
     // Define the columns that we want to display in the table
     function get_columns() {
@@ -293,7 +293,7 @@ class REST_Endpoints_Table extends WP_List_Table {
     // Define the data that will be displayed in each column for each row of the table
     function prepare_items() {
         $data = array();
-        $endpoints = get_all_endpoints_info();
+        $endpoints = pause_shop_get_all_endpoints_info();
 
         foreach ($endpoints as $endpoint => $description) {
             $row = array(
@@ -320,7 +320,7 @@ class REST_Endpoints_Table extends WP_List_Table {
     }
 }
 
-function echo_help_text() {
+function pause_shop_echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
 
     $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";
@@ -338,7 +338,7 @@ function echo_help_text() {
     </h3>
     <?php
         // Create a new instance of our custom WP_List_Table subclass
-        $table = new REST_Endpoints_Table();
+        $table = new Pause_Shop_REST_Endpoints_Table();
 
         // Output the table on the admin page
         $table->prepare_items();
@@ -363,7 +363,7 @@ function echo_help_text() {
     <?php    
 }
 
-function echo_donations_text() {
+function pause_shop_echo_donations_text() {
     $show_donations = true;  # this can only be changed here
     $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
@@ -394,15 +394,15 @@ function pause_shop_settings_page() {
         <div class="wrap">
             <h2><?php echo esc_html($settings_page_title); ?></h2>
             <div class="pause-shop-odd-section">
-                <?php echo_pause_unpause_button(); ?>
+                <?php pause_shop_echo_pause_unpause_button(); ?>
             </div>
             <div>
-                <?php echo_scheduled_pause_controls(); ?>
+                <?php pause_shop_echo_scheduled_pause_controls(); ?>
             </div>
         </div>
-        <?php echo_donations_text(); ?>
+        <?php pause_shop_echo_donations_text(); ?>
         <div class="pause-shop-help">
-            <?php echo_help_text(); ?>
+            <?php pause_shop_echo_help_text(); ?>
         </div>
     </div>
     <?php
@@ -424,17 +424,17 @@ add_action('admin_init', 'pause_shop_register_settings');
 
 /* REST endpoints */
 
-function activate_on_demand_pause() {
+function pause_shop_activate_on_demand_pause() {
     update_option( 'on_demand_paused', true );
     return array( 'success' => true );
 }
 
-function deactivate_on_demand_pause() {
+function pause_shop_deactivate_on_demand_pause() {
     update_option( 'on_demand_paused', false );
     return array( 'success' => true );
 }
 
-function set_timezone() {
+function pause_shop_set_timezone() {
     $timezone = sanitize_text_field($_POST['timezone']);
     $timezones = DateTimeZone::listIdentifiers(DateTimeZone::ALL);
 
@@ -447,14 +447,14 @@ function set_timezone() {
     return array( 'success' => true );
 }
 
-function _is_valid_time($time_str) {
+function pause_shop_is_valid_time($time_str) {
     return preg_match('/^([01][0-9]|2[0-3]):([0-5][0-9])$/', $time_str);
 }
 
-function set_begin_time() {
+function pause_shop_set_begin_time() {
     $begin_time = sanitize_text_field($_POST['begin_time']);
 
-    if (!_is_valid_time($begin_time)) {
+    if (!pause_shop_is_valid_time($begin_time)) {
         return array( 
             'success' => false, 'error' => 'Invalid begin time' );
     }
@@ -463,10 +463,10 @@ function set_begin_time() {
     return array( 'success' => true );
 }
 
-function set_end_time () {
+function pause_shop_set_end_time() {
     $end_time = sanitize_text_field($_POST['end_time']);
 
-    if (!_is_valid_time($end_time)) {
+    if (!pause_shop_is_valid_time($end_time)) {
         return array( 
             'success' => false, 'error' => 'Invalid end time' );
     }
@@ -475,17 +475,17 @@ function set_end_time () {
     return array( 'success' => true );
 }
 
-function enable_scheduled_pause() {
+function pause_shop_enable_scheduled_pause() {
     update_option( 'scheduled_pause_enabled', true );
     return array( 'success' => true );
 }
 
-function disable_scheduled_pause() {
+function pause_shop_disable_scheduled_pause() {
     update_option( 'scheduled_pause_enabled', false );
     return array( 'success' => true );
 }
 
-function set_periodicity() {
+function pause_shop_set_periodicity() {
     $periodicity = sanitize_text_field($_POST['periodicity']);
     $periodicities = array('daily', 'weekly', 'monthly');
 
@@ -499,16 +499,16 @@ function set_periodicity() {
     return array( 'success' => true );
 }
 
-function _is_valid_date($date_str) {
+function pause_shop_is_valid_date($date_str) {
     $date = DateTime::createFromFormat('Y-m-d', $date_str);
 
     return $date->format('Y-m-d') === $date_str;
 }
 
-function set_begin_date() {
+function pause_shop_set_begin_date() {
     $begin_date = sanitize_text_field($_POST['begin_date']);
 
-    if (!_is_valid_date($begin_date)) {
+    if (!pause_shop_is_valid_date($begin_date)) {
         return array( 
             'success' => false, 'error' => 'Invalid begin date' );
     }
@@ -520,7 +520,7 @@ function set_begin_date() {
 function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/pause_shop', array(
         'methods' => 'POST',
-        'callback' => 'activate_on_demand_pause',
+        'callback' => 'pause_shop_activate_on_demand_pause',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -528,7 +528,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/unpause_shop', array(
         'methods' => 'POST',
-        'callback' => 'deactivate_on_demand_pause',
+        'callback' => 'pause_shop_deactivate_on_demand_pause',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -556,7 +556,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/set_timezone', array(
         'methods' => 'POST',
-        'callback' => 'set_timezone',
+        'callback' => 'pause_shop_set_timezone',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -574,7 +574,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/set_begin_time', array(
         'methods' => 'POST',
-        'callback' => 'set_begin_time',
+        'callback' => 'pause_shop_set_begin_time',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -592,7 +592,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/set_end_time', array(
         'methods' => 'POST',
-        'callback' => 'set_end_time',
+        'callback' => 'pause_shop_set_end_time',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -610,7 +610,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/enable_scheduled_pause', array(
         'methods' => 'POST',
-        'callback' => 'enable_scheduled_pause',
+        'callback' => 'pause_shop_enable_scheduled_pause',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -618,7 +618,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/disable_scheduled_pause', array(
         'methods' => 'POST',
-        'callback' => 'disable_scheduled_pause',
+        'callback' => 'pause_shop_disable_scheduled_pause',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -636,7 +636,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/set_periodicity', array(
         'methods' => 'POST',
-        'callback' => 'set_periodicity',
+        'callback' => 'pause_shop_set_periodicity',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
@@ -654,7 +654,7 @@ function pause_shop_register_rest_routes() {
 
     register_rest_route( 'pause_shop/v0', '/set_begin_date', array(
         'methods' => 'POST',
-        'callback' => 'set_begin_date',
+        'callback' => 'pause_shop_set_begin_date',
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
         },
