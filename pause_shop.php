@@ -178,12 +178,14 @@ function pause_shop_echo_scheduled_pause_controls() {
                     <td>
                         <select name="timezone" class="scheduled-pause-input">
                         <?php
-                            $timezones = DateTimeZone::listIdentifiers();
+                            $timezones = DateTimeZone::listIdentifiers(); # TODO: not localized
                             foreach($timezones as $timezone) {
                                 $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
-                                $timezone_option = "<option value=\"" . esc_attr($timezone) . 
-                                    "\" $selected_str>$timezone</option>";
-                                echo esc_html($timezone_option);
+                                ?>
+                                <option value="<?php echo esc_attr($timezone); ?>" <?php echo esc_attr($selected_str); ?>>
+                                    <?php echo esc_html($timezone); ?>
+                                </option>
+                                <?php
                             }
                         ?>
                         </select>
@@ -211,9 +213,12 @@ function pause_shop_echo_scheduled_pause_controls() {
                             $periodicities = array('daily', 'weekly', 'monthly');
                             foreach($periodicities as $periodicity) {
                                 $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
-                                $periodicity_option = "<option value=\"" . esc_attr($periodicity) . "\" $selected_str>" .
-                                    __($periodicity, 'pause-shop') . "</option>";
-                                echo esc_html($periodicity_option);
+                                ?>
+                                <option value="<?php echo esc_attr__($periodicity, 'pause-shop'); ?>" 
+                                        <?php echo esc_attr($selected_str); ?>>
+                                    <?php echo esc_html__($periodicity, 'pause-shop'); ?>
+                                </option>
+                                <?php
                             }
                         ?>
                         </select>
@@ -327,7 +332,7 @@ function pause_shop_echo_help_text() {
     $wp_app_passwds_doc_link_text = __('WordPress documentation', 'pause-shop');
     $wp_app_passwds_doc_a = "<a href=\"$wp_app_passwds_doc_link\" target=\"_blank\">$wp_app_passwds_doc_link_text</a>";
     $wp_app_passwds_text = sprintf(__("You can use application passwords to authenticate. See the %s for more information.", 'pause-shop'), 
-                                   $wp_app_passwds_doc_a);
+                                   $wp_app_passwds_doc_link_text);
     
     $source_code_link = "https://github.com/y3ro/pause_shop";
     $source_code_link_text = __("Source code", "pause-shop");
@@ -346,6 +351,9 @@ function pause_shop_echo_help_text() {
     ?>
     <p>
         <?php echo esc_html($wp_app_passwds_text); ?>
+        <a href="<?php echo esc_url($wp_app_passwds_doc_link) ?>" target="_blank">
+            <?php echo esc_html__($wp_app_passwds_doc_link_text, 'pause-shop') ?>
+        </a>
     </p>
     <div class="pause-shop-source-link">
         <a class="pause-shop-source-button" 
@@ -368,7 +376,7 @@ function pause_shop_echo_donations_text() {
     $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
-    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com');
+    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com'); # TODO: not localized
     
     if ($show_donations): ?>
         <div class="pause-shop-odd-section">
