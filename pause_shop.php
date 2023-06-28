@@ -376,7 +376,7 @@ function pause_shop_echo_donations_text() {
     $donations_title = __('Donations', 'pause-shop');
     $ko_fi_link = 'https://ko-fi.com/y3ro752694';
     $ko_fi_msg = __('If you like this plugin and want me to keep working on it, please consider buying me a coffee :)', 'pause-shop');
-    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com'); # TODO: not localized
+    $ko_fi_btn_image_alt = __('Buy Me a Coffee at ko-fi.com', 'pause-shop');
     
     if ($show_donations): ?>
         <div class="pause-shop-odd-section">
