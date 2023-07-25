@@ -330,9 +330,8 @@ function pause_shop_echo_help_text() {
 
     $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";
     $wp_app_passwds_doc_link_text = __('WordPress documentation', 'pause-shop');
-    $wp_app_passwds_doc_a = "<a href=\"$wp_app_passwds_doc_link\" target=\"_blank\">$wp_app_passwds_doc_link_text</a>";
     $wp_app_passwds_text = sprintf(__("You can use application passwords to authenticate. See the %s for more information.", 'pause-shop'), 
-                                   $wp_app_passwds_doc_a);
+                                   $wp_app_passwds_doc_link_text);
     
     $source_code_link = "https://github.com/y3ro/pause_shop";
     $source_code_link_text = __("Source code", "pause-shop");
