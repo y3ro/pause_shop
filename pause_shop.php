@@ -157,6 +157,7 @@ function pause_shop_echo_scheduled_pause_controls() {
     $end_time_title = __('End time', 'pause-shop');
     $periodicity_title = __('Periodicity', 'pause-shop');
     $begin_date_title = __('Begin date', 'pause-shop');
+    $current_periodicity = get_option('periodicity');
 
     ?>
     <h3><?php echo esc_html__('Scheduled pause', 'pause-shop'); ?></h3>
@@ -208,19 +209,27 @@ function pause_shop_echo_scheduled_pause_controls() {
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($periodicity_title); ?></th>
                     <td>
+                                                                                     <!-- TODO: dont localize values -->
                         <select name="periodicity" class="scheduled-pause-input">
-                        <?php
-                            $periodicities = array('daily', 'weekly', 'monthly');
-                            foreach($periodicities as $periodicity) {
-                                $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
-                                ?>
-                                <option value="<?php echo esc_attr__($periodicity, 'pause-shop'); ?>" 
-                                        <?php echo esc_attr($selected_str); ?>>
-                                    <?php echo esc_html__($periodicity, 'pause-shop'); ?>
-                                </option>
+                            $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
+                            <option value="<?php echo esc_attr__('daily', 'pause-shop'); ?>"
+                                    <?php echo esc_attr('daily' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
-                            }
-                        ?>
+                                    echo esc_html__('daily', 'pause-shop');
+                                ?>
+                            </option>
+                            <option value="<?php echo esc_attr__('weekly', 'pause-shop'); ?>"
+                                    <?php echo esc_attr('weekly' == $current_periodicity ? 'selected' : ''); ?>>
+                                <?php
+                                    echo esc_html__('weekly', 'pause-shop');
+                                ?>
+                            </option>
+                            <option value="<?php echo esc_attr__('monthly', 'pause-shop'); ?>"
+                                    <?php echo esc_attr('monthly' == $current_periodicity ? 'selected' : ''); ?>>
+                                <?php
+                                    echo esc_html__('monthly', 'pause-shop');
+                                ?>
+                            </option>
                         </select>
                     </td>
                 </tr>
@@ -328,11 +337,7 @@ class Pause_Shop_REST_Endpoints_Table extends WP_List_Table {
 function pause_shop_echo_help_text() {
     $help_title = __('Available REST endpoints', 'pause-shop');
 
-    $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";
-    $wp_app_passwds_doc_link_text = __('WordPress documentation', 'pause-shop');
-    $wp_app_passwds_text = sprintf(__("You can use application passwords to authenticate. See the %s for more information.", 'pause-shop'), 
-                                   $wp_app_passwds_doc_link_text);
-    
+    $wp_app_passwds_doc_link = "https://make.wordpress.org/core/2020/11/05/application-passwords-integration-guide/";   
     $source_code_link = "https://github.com/y3ro/pause_shop";
     $source_code_link_text = __("Source code", "pause-shop");
     
@@ -349,9 +354,9 @@ function pause_shop_echo_help_text() {
         $table->display();
     ?>
     <p>
-        <?php echo esc_html($wp_app_passwds_text); ?>
+        <?php echo esc_html__("You can use application passwords to authenticate. See the WordPress documentation for more information.", 'pause-shop'); ?>
         <a href="<?php echo esc_url($wp_app_passwds_doc_link) ?>" target="_blank">
-            <?php echo esc_html__($wp_app_passwds_doc_link_text, 'pause-shop') ?>
+            <?php echo esc_html__('Wordpress documentation', 'pause-shop') ?>
         </a>
     </p>
     <div class="pause-shop-source-link">

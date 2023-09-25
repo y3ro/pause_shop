@@ -81,8 +81,8 @@ msgstr "Habilitar pausa programada"
 msgid "WordPress documentation"
 msgstr "Documentación de WordPress"
 
-msgid "You can use application passwords to authenticate. See the %s for more information."
-msgstr "Puedes usar contraseñas de aplicación para autenticarte. Consulta la %s para obtener más información."
+msgid "You can use application passwords to authenticate. See the WordPress documentation for more information."
+msgstr "Puedes usar contraseñas de aplicación para autenticarte. Consulta la documentación de WordPress para obtener más información."
 
 msgid "Source code"
 msgstr "Código fuente"

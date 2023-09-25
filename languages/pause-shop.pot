@@ -81,7 +81,7 @@ msgstr ""
 msgid "WordPress documentation"
 msgstr ""
 
-msgid "You can use application passwords to authenticate. See the %s for more information."
+msgid "You can use application passwords to authenticate. See the WordPress documentation for more information."
 msgstr ""
 
 msgid "Source code"
