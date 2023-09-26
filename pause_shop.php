@@ -209,9 +209,7 @@ function pause_shop_echo_scheduled_pause_controls() {
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($periodicity_title); ?></th>
                     <td>
-                                                                                     <!-- TODO: dont localize values -->
                         <select name="periodicity" class="scheduled-pause-input">
-                            $selected_str = $periodicity == get_option('pause_shop_periodicity') ? 'selected' : ''; <!-- TODO: fix this -->
                             <option value="<?php echo esc_attr__('daily', 'pause-shop'); ?>"
                                     <?php echo esc_attr('daily' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
