@@ -39,8 +39,8 @@ function pause_shop_block_order() {
 }
 
 function pause_shop_is_pause_day() {
-    $periodicity = get_option('periodicity') ?: 'daily';
-    $begin_date = get_option('begin_date') ?: '2000-01-01';
+    $periodicity = get_option('pause_shop_periodicity') ?: 'daily';
+    $begin_date = get_option('pause_shop_begin_date') ?: '2000-01-01';
     $today = date('Y-m-d');
 
     switch ($periodicity) {
@@ -60,11 +60,11 @@ function pause_shop_is_pause_day() {
 }
 
 function pause_shop_is_scheduled_paused() {
-    $timezone = new DateTimeZone(get_option('timezone') ?: 'UTC');
-    $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
+    $timezone = new DateTimeZone(get_option('pause_shop_timezone') ?: 'UTC');
+    $scheduled_pause_enabled = get_option('pause_shop_scheduled_pause_enabled') ?: false;
 
-    $begin_time = get_option('begin_time');
-    $end_time = get_option('end_time');
+    $begin_time = get_option('pause_shop_begin_time');
+    $end_time = get_option('pause_shop_end_time');
     $date = new DateTime('now', $timezone);
     $time = $date->format('H:i:s');
 
@@ -76,7 +76,7 @@ function pause_shop_is_scheduled_paused() {
 }
 
 function pause_shop_pause_shop() {
-    $on_demand_paused = get_option('on_demand_paused') ?: false;
+    $on_demand_paused = get_option('pause_shop_on_demand_paused') ?: false;
     $schedule_paused = pause_shop_is_scheduled_paused();
 
     if ($on_demand_paused || $schedule_paused) {
@@ -106,14 +106,14 @@ add_action('admin_menu', 'pause_shop_pause_shop_menu');
 /* Admin settings page */
 
 function pause_shop_echo_pause_unpause_button() {
-    $pause = get_option('on_demand_paused') ?: false;
-    $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
+    $pause = get_option('pause_shop_on_demand_paused') ?: false;
+    $scheduled_pause_enabled = get_option('pause_shop_scheduled_pause_enabled') ?: false;
     $schedule_paused = pause_shop_is_scheduled_paused();
-    $timezone = get_option('timezone') ?: 'UTC';
-    $begin_time = get_option('begin_time');
-    $end_time = get_option('end_time');
-    $periodicity = get_option('periodicity') ?: 'daily';
-    $begin_date = get_option('begin_date');
+    $timezone = get_option('pause_shop_timezone') ?: 'UTC';
+    $begin_time = get_option('pause_shop_begin_time');
+    $end_time = get_option('pause_shop_end_time');
+    $periodicity = get_option('pause_shop_periodicity') ?: 'daily';
+    $begin_date = get_option('pause_shop_begin_date');
     $pause_on_demand_title = __('Pause on demand', 'pause-shop');
     $pause_state_title = __('State', 'pause-shop');
     $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
@@ -147,17 +147,17 @@ function pause_shop_echo_pause_unpause_button() {
 function pause_shop_echo_scheduled_pause_controls() {
     $scheduled_pause_enabled_title = __('Enable scheduled pause', 'pause-shop');
     $pause = pause_shop_is_scheduled_paused();
-    $on_demand_paused = get_option('on_demand_paused') ?: false;
+    $on_demand_paused = get_option('pause_shop_on_demand_paused') ?: false;
     $pause_state_title = __('State', 'pause-shop');
     $pause_state = $pause ? __('Paused', 'pause-shop') : __('Unpaused', 'pause-shop');
-    $scheduled_pause_enabled = get_option('scheduled_pause_enabled') ?: false;
+    $scheduled_pause_enabled = get_option('pause_shop_scheduled_pause_enabled') ?: false;
     $scheduled_pause_enabled_checked_str = $scheduled_pause_enabled ? 'checked' : '';
     $timezone_title = __('Timezone', 'pause-shop');
     $begin_time_title = __('Begin time', 'pause-shop');
     $end_time_title = __('End time', 'pause-shop');
     $periodicity_title = __('Periodicity', 'pause-shop');
     $begin_date_title = __('Begin date', 'pause-shop');
-    $current_periodicity = get_option('periodicity');
+    $current_periodicity = get_option('pause_shop_periodicity');
 
     ?>
     <h3><?php echo esc_html__('Scheduled pause', 'pause-shop'); ?></h3>
@@ -181,7 +181,7 @@ function pause_shop_echo_scheduled_pause_controls() {
                         <?php
                             $timezones = DateTimeZone::listIdentifiers(); # TODO: not localized
                             foreach($timezones as $timezone) {
-                                $selected_str = $timezone == get_option('timezone') ? 'selected' : '';
+                                $selected_str = $timezone == get_option('pause_shop_timezone') ? 'selected' : '';
                                 ?>
                                 <option value="<?php echo esc_attr($timezone); ?>" <?php echo esc_attr($selected_str); ?>>
                                     <?php echo esc_html($timezone); ?>
@@ -196,14 +196,14 @@ function pause_shop_echo_scheduled_pause_controls() {
                     <th scope="row"><?php echo esc_html($begin_time_title); ?></th>
                     <td>
                         <input type="time" name="begin_time" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('begin_time')); ?>" />
+                        value="<?php echo esc_attr(get_option('pause_shop_begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($end_time_title); ?></th>
                     <td>
                         <input type="time" name="end_time" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('end_time')); ?>" />
+                        value="<?php echo esc_attr(get_option('pause_shop_end_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
@@ -211,7 +211,7 @@ function pause_shop_echo_scheduled_pause_controls() {
                     <td>
                                                                                      <!-- TODO: dont localize values -->
                         <select name="periodicity" class="scheduled-pause-input">
-                            $selected_str = $periodicity == get_option('periodicity') ? 'selected' : '';
+                            $selected_str = $periodicity == get_option('pause_shop_periodicity') ? 'selected' : ''; <!-- TODO: fix this -->
                             <option value="<?php echo esc_attr__('daily', 'pause-shop'); ?>"
                                     <?php echo esc_attr('daily' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
@@ -237,7 +237,7 @@ function pause_shop_echo_scheduled_pause_controls() {
                     <th scope="row"><?php echo esc_html($begin_date_title); ?></th>
                     <td>
                         <input type="date" name="begin_date" class="scheduled-pause-input"
-                        value="<?php echo esc_attr(get_option('begin_date')); ?>" />
+                        value="<?php echo esc_attr(get_option('pause_shop_begin_date')); ?>" />
                     </td>
                 </tr>
             </table>
@@ -423,26 +423,26 @@ function pause_shop_settings_page() {
 /* Admin settings */
 
 function pause_shop_register_settings() {
-    register_setting('pause-shop-settings-group', 'timezone');
-    register_setting('pause-shop-settings-group', 'begin_time');
-    register_setting('pause-shop-settings-group', 'end_time');
-    register_setting('pause-shop-settings-group', 'on_demand_paused');
-    register_setting('pause-shop-settings-group', 'schedule_paused');
-    register_setting('pause-shop-settings-group', 'scheduled_pause_enabled');
-    register_setting('pause-shop-settings-group', 'begin_date');
-    register_setting('pause-shop-settings-group', 'periodicity');
+    register_setting('pause-shop-settings-group', 'pause_shop_timezone');
+    register_setting('pause-shop-settings-group', 'pause_shop_begin_time');
+    register_setting('pause-shop-settings-group', 'pause_shop_end_time');
+    register_setting('pause-shop-settings-group', 'pause_shop_on_demand_paused');
+    register_setting('pause-shop-settings-group', 'pause_shop_schedule_paused');
+    register_setting('pause-shop-settings-group', 'pause_shop_scheduled_pause_enabled');
+    register_setting('pause-shop-settings-group', 'pause_shop_begin_date');
+    register_setting('pause-shop-settings-group', 'pause_shop_periodicity');
 }
 add_action('admin_init', 'pause_shop_register_settings');
 
 /* REST endpoints */
 
 function pause_shop_activate_on_demand_pause() {
-    update_option( 'on_demand_paused', true );
+    update_option( 'pause_shop_on_demand_paused', true );
     return array( 'success' => true );
 }
 
 function pause_shop_deactivate_on_demand_pause() {
-    update_option( 'on_demand_paused', false );
+    update_option( 'pause_shop_on_demand_paused', false );
     return array( 'success' => true );
 }
 
@@ -455,7 +455,7 @@ function pause_shop_set_timezone() {
             'success' => false, 'error' => 'Invalid timezone' );
     }
 
-    update_option( 'timezone', $timezone );
+    update_option( 'pause_shop_timezone', $timezone );
     return array( 'success' => true );
 }
 
@@ -471,7 +471,7 @@ function pause_shop_set_begin_time() {
             'success' => false, 'error' => 'Invalid begin time' );
     }
 
-    update_option( 'begin_time', $begin_time );
+    update_option( 'pause_shop_begin_time', $begin_time );
     return array( 'success' => true );
 }
 
@@ -483,17 +483,17 @@ function pause_shop_set_end_time() {
             'success' => false, 'error' => 'Invalid end time' );
     }
 
-    update_option( 'end_time', $end_time );
+    update_option( 'pause_shop_end_time', $end_time );
     return array( 'success' => true );
 }
 
 function pause_shop_enable_scheduled_pause() {
-    update_option( 'scheduled_pause_enabled', true );
+    update_option( 'pause_shop_scheduled_pause_enabled', true );
     return array( 'success' => true );
 }
 
 function pause_shop_disable_scheduled_pause() {
-    update_option( 'scheduled_pause_enabled', false );
+    update_option( 'pause_shop_scheduled_pause_enabled', false );
     return array( 'success' => true );
 }
 
@@ -507,7 +507,7 @@ function pause_shop_set_periodicity() {
             'periodicity' => $periodicity );
     }
 
-    update_option( 'periodicity', $periodicity );
+    update_option( 'pause_shop_periodicity', $periodicity );
     return array( 'success' => true );
 }
 
@@ -525,7 +525,7 @@ function pause_shop_set_begin_date() {
             'success' => false, 'error' => 'Invalid begin date' );
     }
 
-    update_option( 'begin_date', $begin_date );
+    update_option( 'pause_shop_begin_date', $begin_date );
     return array( 'success' => true );
 }
 
@@ -549,7 +549,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/is_on_demand_paused', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'paused' => get_option('on_demand_paused') );
+            return array( 'paused' => get_option('pause_shop_on_demand_paused') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -559,7 +559,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/is_schedule_paused', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'paused' => get_option('schedule_paused') );
+            return array( 'paused' => get_option('pause_shop_schedule_paused') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -577,7 +577,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/get_timezone', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'timezone' => get_option('timezone') );
+            return array( 'timezone' => get_option('pause_shop_timezone') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -595,7 +595,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/get_begin_time', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'begin_time' => get_option('begin_time') );
+            return array( 'begin_time' => get_option('pause_shop_begin_time') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -613,7 +613,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/get_end_time', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'end_time' => get_option('end_time') );
+            return array( 'end_time' => get_option('pause_shop_end_time') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -639,7 +639,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/is_scheduled_pause_enabled', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'scheduled_pause_enabled' => get_option('scheduled_pause_enabled') );
+            return array( 'scheduled_pause_enabled' => get_option('pause_shop_scheduled_pause_enabled') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -657,7 +657,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/get_periodicity', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'periodicity' => get_option('periodicity') );
+            return array( 'periodicity' => get_option('pause_shop_periodicity') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
@@ -675,7 +675,7 @@ function pause_shop_register_rest_routes() {
     register_rest_route( 'pause_shop/v0', '/get_begin_date', array(
         'methods' => 'GET',
         'callback' => function () {
-            return array( 'begin_date' => get_option('begin_date') );
+            return array( 'begin_date' => get_option('pause_shop_begin_date') );
         },
         'permission_callback' => function () {
             return current_user_can( 'manage_options' );
