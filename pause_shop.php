@@ -5,7 +5,7 @@ Description: Disable add-to-cart and checkout, disabling creating new orders, an
 Author: y3ro
 Domain Path: /languages
 Text Domain: pause-shop
-Version: 0.8.5
+Version: 0.8.6
 License: MIT
 */
 
