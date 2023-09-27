@@ -128,16 +128,16 @@ function pause_shop_echo_pause_unpause_button() {
     <form method="post" action="options.php" class="pause-on-demand-form">
         <?php settings_fields('pause-shop-settings-group'); ?>
         <?php do_settings_sections('pause-shop-settings-group'); ?>
-        <input type="hidden" name="on_demand_paused" class="button button-primary" 
+        <input type="hidden" name="pause_shop_on_demand_paused" class="button button-primary" 
             value="<?php echo esc_attr(!$pause); ?>">
-        <input type="hidden" name="scheduled_pause_enabled" 
+        <input type="hidden" name="pause_shop_scheduled_pause_enabled" 
         value="<?php echo esc_attr($scheduled_pause_enabled); ?>">
-        <input type="hidden" name="schedule_paused" value="<?php echo esc_attr($schedule_paused); ?>">
-        <input type="hidden" name="timezone" value="<?php echo esc_attr($timezone); ?>">
-        <input type="hidden" name="begin_time" value="<?php echo esc_attr($begin_time); ?>">
-        <input type="hidden" name="end_time" value="<?php echo esc_attr($end_time); ?>">
-        <input type="hidden" name="periodicity" value="<?php echo esc_attr($periodicity); ?>">
-        <input type="hidden" name="begin_date" value="<?php echo esc_attr($begin_date); ?>">
+        <input type="hidden" name="pause_shop_schedule_paused" value="<?php echo esc_attr($schedule_paused); ?>">
+        <input type="hidden" name="pause_shop_timezone" value="<?php echo esc_attr($timezone); ?>">
+        <input type="hidden" name="pause_shop_begin_time" value="<?php echo esc_attr($begin_time); ?>">
+        <input type="hidden" name="pause_shop_end_time" value="<?php echo esc_attr($end_time); ?>">
+        <input type="hidden" name="pause_shop_periodicity" value="<?php echo esc_attr($periodicity); ?>">
+        <input type="hidden" name="pause_shop_begin_date" value="<?php echo esc_attr($begin_date); ?>">
             <?php submit_button(
                 $button_text, 'primary', 'submit', true, array()); ?>
     </form>
@@ -167,17 +167,17 @@ function pause_shop_echo_scheduled_pause_controls() {
         <form method="post" action="options.php">
             <?php settings_fields('pause-shop-settings-group'); ?>
             <?php do_settings_sections('pause-shop-settings-group'); ?>
-            <input type="hidden" name="on_demand_paused" value="<?php echo esc_attr($on_demand_paused); ?>">
+            <input type="hidden" name="pause_shop_on_demand_paused" value="<?php echo esc_attr($on_demand_paused); ?>">
             <table class="form-table">
                 <tr valign="top">
-                    <input id="scheduled-pause-enabled" type="checkbox" name="scheduled_pause_enabled" 
+                    <input id="scheduled-pause-enabled" type="checkbox" name="pause_shop_scheduled_pause_enabled" 
                     <?php echo esc_attr($scheduled_pause_enabled_checked_str); ?>>
                     <label for="scheduled_pause_enabled"><?php echo esc_html($scheduled_pause_enabled_title); ?></label>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($timezone_title); ?></th>
                     <td>
-                        <select name="timezone" class="scheduled-pause-input">
+                        <select name="pause_shop_timezone" class="scheduled-pause-input">
                         <?php
                             $timezones = DateTimeZone::listIdentifiers(); # TODO: not localized
                             foreach($timezones as $timezone) {
@@ -195,21 +195,21 @@ function pause_shop_echo_scheduled_pause_controls() {
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($begin_time_title); ?></th>
                     <td>
-                        <input type="time" name="begin_time" class="scheduled-pause-input"
+                        <input type="time" name="pause_shop_begin_time" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('pause_shop_begin_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($end_time_title); ?></th>
                     <td>
-                        <input type="time" name="end_time" class="scheduled-pause-input"
+                        <input type="time" name="pause_shop_end_time" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('pause_shop_end_time')); ?>" />
                     </td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($periodicity_title); ?></th>
                     <td>
-                        <select name="periodicity" class="scheduled-pause-input">
+                        <select name="pause_shop_periodicity" class="scheduled-pause-input">
                             <option value="daily"
                                     <?php echo esc_attr('daily' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
@@ -234,7 +234,7 @@ function pause_shop_echo_scheduled_pause_controls() {
                 <tr valign="top">
                     <th scope="row"><?php echo esc_html($begin_date_title); ?></th>
                     <td>
-                        <input type="date" name="begin_date" class="scheduled-pause-input"
+                        <input type="date" name="pause_shop_begin_date" class="scheduled-pause-input"
                         value="<?php echo esc_attr(get_option('pause_shop_begin_date')); ?>" />
                     </td>
                 </tr>
