@@ -23,71 +23,71 @@ There are two types of pause you can use:
 The plugin provides the following REST endpoints:
 * Pause the shop on-demand.
 ```
-POST /wp-json/pause-shop/v0/pause_shop
+POST /wp-json/pause_shop/v0/pause_shop
 ```
 * Unpause the shop on-demand.
 ```
-POST /wp-json/pause-shop/v0/unpause_shop
+POST /wp-json/pause_shop/v0/unpause_shop
 ```
 * Check if on-demand pause is on.
 ```
-GET /wp-json/pause-shop/v0/is_on_demand_paused
+GET /wp-json/pause_shop/v0/is_on_demand_paused
 ```
 * Check if scheduled pause is on.
 ```
-GET /wp-json/pause-shop/v0/is_scheduled_paused
+GET /wp-json/pause_shop/v0/is_scheduled_paused
 ```
 * Set the timezone.
 ```
-POST /wp-json/pause-shop/v0/set_timezone -F "timezone=Europe/London"
+POST /wp-json/pause_shop/v0/set_timezone -d "timezone=Europe/London"
 ```
 * Get the timezone.
 ```
-GET /wp-json/pause-shop/v0/get_timezone
+GET /wp-json/pause_shop/v0/get_timezone
 ```
 * Set the scheduled pause begin time.
 ```
-POST /wp-json/pause-shop/v0/set_begin_time -F "begin_time=01:00"
+POST /wp-json/pause_shop/v0/set_begin_time -d "begin_time=01:00"
 ```
 * Get the scheduled pause begin time.
 ```
-GET /wp-json/pause-shop/v0/get_begin_time
+GET /wp-json/pause_shop/v0/get_begin_time
 ```
 * Set the scheduled pause end time.
 ```
-POST /wp-json/pause-shop/v0/set_end_time -F "end_time=01:30"
+POST /wp-json/pause_shop/v0/set_end_time -d "end_time=01:30"
 ```
 * Get the scheduled pause end time.
 ```
-GET /wp-json/pause-shop/v0/get_end_time
+GET /wp-json/pause_shop/v0/get_end_time
 ```
 * Set the scheduled pause periodicity.
 ```
-POST /wp-json/pause-shop/v0/set_periodicity -F "periodicity=monthly"
+POST /wp-json/pause_shop/v0/set_periodicity -d "periodicity=monthly"
 ```
 * Get the scheduled pause periodicity.
 ```
-GET /wp-json/pause-shop/v0/get_periodicity
+GET /wp-json/pause_shop/v0/get_periodicity
 ```
 * Set the begin date for the scheduled pause.
 ```
-POST /wp-json/pause-shop/v0/set_begin_date -F "begin_date=2020-01-01"
+POST /wp-json/pause_shop/v0/set_begin_date -d "begin_date=2020-01-01"
 ```
 * Get the begin date for the scheduled pause.
 ```
-GET /wp-json/pause-shop/v0/get_begin_date
+GET /wp-json/pause_shop/v0/get_begin_date
 ```
 * Enable the scheduled pause.
 ```
-POST /wp-json/pause-shop/v0/enable_scheduled_pause
+POST /wp-json/pause_shop/v0/enable_scheduled_pause
 ```
 * Disable the scheduled pause.
 ```
-POST /wp-json/pause-shop/v0/disable_scheduled_pause
+POST /wp-json/pause_shop/v0/disable_scheduled_pause
 ```
 * Check if the scheduled pause is enabled.
 ```
-GET /wp-json/pause-shop/v0/is_scheduled_pause_enabled
+GET /wp-json/pause_shop/v0/is_scheduled_pause_enabled
 ```
 
 == License ==
