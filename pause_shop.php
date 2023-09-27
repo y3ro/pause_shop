@@ -210,19 +210,19 @@ function pause_shop_echo_scheduled_pause_controls() {
                     <th scope="row"><?php echo esc_html($periodicity_title); ?></th>
                     <td>
                         <select name="periodicity" class="scheduled-pause-input">
-                            <option value="<?php echo esc_attr__('daily', 'pause-shop'); ?>"
+                            <option value="daily"
                                     <?php echo esc_attr('daily' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
                                     echo esc_html__('daily', 'pause-shop');
                                 ?>
                             </option>
-                            <option value="<?php echo esc_attr__('weekly', 'pause-shop'); ?>"
+                            <option value="weekly"
                                     <?php echo esc_attr('weekly' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
                                     echo esc_html__('weekly', 'pause-shop');
                                 ?>
                             </option>
-                            <option value="<?php echo esc_attr__('monthly', 'pause-shop'); ?>"
+                            <option value="monthly"
                                     <?php echo esc_attr('monthly' == $current_periodicity ? 'selected' : ''); ?>>
                                 <?php
                                     echo esc_html__('monthly', 'pause-shop');
