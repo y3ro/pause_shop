@@ -3,7 +3,7 @@ Contributors: y3ro
 Tags: pause shop, stop shop, woocommerce, shop maintenance, disable orders, programmable maintenance mode, read-only mode, remotely configurable, rest endpoints
 Requires at least: 5.6
 Tested up to: 6.2
-Stable tag: 0.8.6
+Stable tag: 0.8.7
 License: MIT
 
 This is a Wordpress plugin that allows you to pause your Woocommerce shop for a period of time.
